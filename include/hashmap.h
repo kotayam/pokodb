@@ -6,7 +6,7 @@
 typedef struct key_value_t {
     char* key;
     char* value;
-    key_value* next;
+    struct key_value_t* next;
 } key_value;
 
 typedef struct hashmap_t {

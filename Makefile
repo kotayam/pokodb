@@ -1,23 +1,29 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2
 
-ODIR = build
-SDIR = src
+BUILDDIR = build
+SRCDIR = src
+INCLUDEDIR = include
 
-_OBJ = main.o
-OBJ = $(patsubst %, $(ODIR)/%, $(_OBJ))
+_OBJ = main.o hashmap.o
+OBJ = $(patsubst %, $(BUILDDIR)/%, $(_OBJ))
 
-_SRC = main.c
-SRC = $(patsubst %, $(SDIR)/%, $(_SRC))
+_SRC = main.c hashmap.c
+SRC = $(patsubst %, $(SRCDIR)/%, $(_SRC))
 
-$(ODIR)/main: $(OBJ)
-	$(CC) -o $@ $^
+_DEPS = hashmap.h
+DEPS = $(patsubst %, $(INCLUDEDIR)/%, $(_DEPS))
 
-$(ODIR)/%.o: $(SDIR)/%.c
-	mkdir -p $(ODIR)
+
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c $(INCLUDEDIR)/%.h
+	mkdir -p $(BUILDDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+
+$(BUILDDIR)/main: $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
 
 .PHONY: clean
 
 clean: 
-	rm -rf $(ODIR) main
+	rm -rf $(BUILDDIR) main
