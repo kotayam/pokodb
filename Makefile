@@ -8,9 +8,13 @@ VALGRIND_FLAGS = --leak-check=full --show-leak-kinds=all --log-file=$(LOGDIR)/lo
 BUILDDIR = build
 SRCDIR = src
 INCLUDEDIR = include
+TESTDIR = test
 
-_OBJ = main.o hashmap.o
-OBJ = $(patsubst %, $(BUILDDIR)/%, $(_OBJ))
+# src
+MAIN = $(BUILDDIR)/main.o
+
+_OBJ = hashmap.o
+OBJ = $(patsubst %, $(BUILDDIR)/%, $(_OBJ)) 
 
 _SRC = main.c hashmap.c
 SRC = $(patsubst %, $(SRCDIR)/%, $(_SRC))
@@ -18,22 +22,53 @@ SRC = $(patsubst %, $(SRCDIR)/%, $(_SRC))
 _DEPS = hashmap.h errors.h
 DEPS = $(patsubst %, $(INCLUDEDIR)/%, $(_DEPS))
 
+# test
+_TEST_OBJ = main_test.o hashmap_test.o 
+TEST_OBJ = $(patsubst %, $(BUILDDIR)/%, $(_TEST_OBJ)) $(OBJ)
 
+_TEST = main_test.c hashmap_test.c
+TEST = $(patsubst %, $(TESTDIR)/%, $(_TEST))
+
+_TEST_DEPS = hashmap_test.h
+TEST_DEPS = $(patsubst %, $(TESTDIR)/%, $(_TEST_DEPS)) $(DEPS)
+
+# rules for src
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	mkdir -p $(BUILDDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# rules for test
+$(BUILDDIR)/%.o: $(TESTDIR)/%.c $(TEST_DEPS)
+	mkdir -p $(BUILDDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BUILDDIR)/main: $(OBJ)
+all: $(BUILDDIR)/main $(BUILDDIR)/test
+
+# compile src
+$(BUILDDIR)/main: $(MAIN) $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
 
+# compile test
+$(BUILDDIR)/test: $(TEST_OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# run src
 run: $(BUILDDIR)/main
 	./$(BUILDDIR)/main
 
+# run test
+test: $(BUILDDIR)/test
+	./$(BUILDDIR)/test
+
+# valgrind for src
 valgrind: $(BUILDDIR)/main
 	$(VALGRIND) $(VALGRIND_FLAGS) ./$(BUILDDIR)/main
 
-.PHONY: clean
+# valgrdind for test
+valgrind_test: $(BUILDDIR)/test
+	$(VALGRIND) $(VALGRIND_FLAGS) ./$(BUILDDIR)/test
 
+# clean
+.PHONY: clean
 clean: 
 	rm -rf $(BUILDDIR) main

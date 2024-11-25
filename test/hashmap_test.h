@@ -1,10 +1,10 @@
+#ifndef HASHMAP_TEST_H
+
 #include "../include/hashmap.h"
 #include "../include/errors.h"
+#include <stdlib.h>
 #include <stdio.h>
 
-int main() {
-    hashmap* map = NULL;
+void insert_test();
 
-    free_map(map);
-    return 0;
-}
+#endif

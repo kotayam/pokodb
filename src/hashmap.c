@@ -46,9 +46,9 @@ int insert(char* key, char* value, hashmap* map) {
     return 0;
 }
 
-char* get(char* key, hashmap* map) {
+// char* get(char* key, hashmap* map) {
     
-}
+// }
 
 void print_map(hashmap* map) {
     for (int i = 0; i < TABLE_SIZE; i++) {
