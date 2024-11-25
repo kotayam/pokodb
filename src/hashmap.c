@@ -20,10 +20,39 @@ int create_map(hashmap** map) {
     return 0;
 }
 
+int insert(char* key, char* value, hashmap* map) {
+    // TODO: hash key to identify index in entries array
+    int index = 0;
+
+    // save first node
+    key_value* node = map->entries[index];
+
+    // create new node
+    key_value* new = malloc(sizeof(key_value));
+    if (new == NULL) {
+        return NOT_ENOUGH_MEMORY;
+    }
+    new->key = key;
+    new->value = value;
+    new->next = NULL;
+
+    // insert to front
+    map->entries[index] = new;
+    if (node != NULL) {
+        new->next = node;
+    }
+
+    return 0;
+}
+
 void free_map(hashmap* map) {
     for (int i = 0; i < TABLE_SIZE; i++) {
-        // TODO: loop the next and free until reach last node
-        free(map->entries[i]);
+        key_value* node = map->entries[i];
+        while (node != NULL) {
+            key_value* next = node->next;
+            free(node);
+            node = next;
+        }
     }
     free(map->entries);
     free(map);

@@ -18,11 +18,13 @@ int create_map(hashmap** map);
 
 void hash();
 
-void insert();
+int insert(char* key, char* value, hashmap* map);
 
 void get();
 
 void update();
+
+void print_map(hashmap* map);
 
 void free_map(hashmap* map);
 
