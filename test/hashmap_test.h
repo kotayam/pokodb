@@ -7,4 +7,6 @@
 
 void insert_test();
 
+void get_test();
+
 #endif

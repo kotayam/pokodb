@@ -1,11 +1,13 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Og -ggdb3
+CFLAGS = -Wall -Wextra -Og -ggdb3 -g
+
+GDB = gdb
 
 VALGRIND = valgrind
 LOGDIR = log
 VALGRIND_FLAGS = --leak-check=full --show-leak-kinds=all
-VALGRIND_OUTPUT = --log-file=$(LOGDIR)/log
-VALGRIND_OUTPUT_TEST = --log-file=$(LOGDIR)/log_test
+VALGRIND_OUTPUT = --log-file=$(LOGDIR)/log.txt
+VALGRIND_OUTPUT_TEST = --log-file=$(LOGDIR)/log_test.txt
 
 BUILDDIR = build
 SRCDIR = src
@@ -70,7 +72,16 @@ valgrind: $(BUILDDIR)/main
 valgrind_test: $(BUILDDIR)/test
 	$(VALGRIND) $(VALGRIND_FLAGS) $(VALGRIND_OUTPUT_TEST) ./$(BUILDDIR)/test
 
+# gdb for src
+gdb: $(BUILDDIR)/main
+	$(GDB) ./$(BUILDDIR)/main
+
+# gdb for test
+gdb_test: $(BUILDDIR)/test
+	$(GDB) ./$(BUILDDIR)/test
+
 # clean
 .PHONY: clean
 clean: 
-	rm -rf $(BUILDDIR) main
+	rm -rf $(BUILDDIR)
+	rm -i $(LOGDIR)

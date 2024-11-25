@@ -1,6 +1,11 @@
 #ifndef HASHMAP_H
 #define HASHMAP_H
 
+#include "errors.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 #define TABLE_SIZE 100
 
 typedef struct key_value_t {
