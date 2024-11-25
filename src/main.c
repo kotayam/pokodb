@@ -1,23 +1,30 @@
 #include "../include/hashmap.h"
+#include "../include/errors.h"
 #include <stdio.h>
 
 int main() {
-    printf("hello world!\n");
-
     hashmap* map = NULL;
     int res = create_map(&map);
     if (res < 0) {
-        printf("error creating map\n");
+        printf(CREATE_MAP_ERROR);
         free_map(map);
         return 0;
     }
 
-    res = insert("test", "test", map);
+    res = insert("hi", "hi", map);
     if (res < 0) {
-        printf("error inserting\n");
+        printf(INSERT_ERROR);
         free_map(map);
         return 0;
     }
+
+    res = insert("hello", "hello", map);
+    if (res <0) {
+        printf(INSERT_ERROR);
+        free_map(map);
+    }
+
+    print_map(map);
 
     free_map(map);
     return 0;

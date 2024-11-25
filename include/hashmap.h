@@ -20,9 +20,7 @@ void hash();
 
 int insert(char* key, char* value, hashmap* map);
 
-void get();
-
-void update();
+char* get(char* key, hashmap* map);
 
 void print_map(hashmap* map);
 

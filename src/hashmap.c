@@ -1,6 +1,7 @@
 #include "../include/hashmap.h"
 #include "../include/errors.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 int create_map(hashmap** map) {
     *map = malloc(sizeof(hashmap)); 
@@ -43,6 +44,20 @@ int insert(char* key, char* value, hashmap* map) {
     }
 
     return 0;
+}
+
+char* get(char* key, hashmap* map) {
+    
+}
+
+void print_map(hashmap* map) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        key_value* node = map->entries[i];
+        while (node != NULL) {
+            printf("Key: %s, Value: %s\n", node->key, node->value);
+            node = node->next;
+        }
+    }
 }
 
 void free_map(hashmap* map) {
