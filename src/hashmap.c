@@ -3,22 +3,28 @@
 #include <stdlib.h>
 
 int create_map(hashmap** map) {
-    hashmap* map_p = malloc(sizeof(hashmap)); 
-    if (map_p == NULL) {
+    *map = malloc(sizeof(hashmap)); 
+    if (*map == NULL) {
         return NOT_ENOUGH_MEMORY;
     }
-    *map = map_p;
 
-    key_value** entries_p = malloc(sizeof(key_value*) * TABLE_SIZE);
-    if (entries_p == NULL) {
+    (*map)->entries = malloc(sizeof(key_value*) * TABLE_SIZE);
+    if ((*map)->entries == NULL) {
         return NOT_ENOUGH_MEMORY;
     }
-    (*map)->entries = entries_p;
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        (*map)->entries[i] = NULL;
+    }
 
     return 0;
 }
 
 void free_map(hashmap* map) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        // TODO: loop the next and free until reach last node
+        free(map->entries[i]);
+    }
     free(map->entries);
     free(map);
 }

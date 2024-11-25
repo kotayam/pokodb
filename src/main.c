@@ -3,6 +3,7 @@
 
 int main() {
     printf("hello world!\n");
+    
     hashmap* map = NULL;
     int res = create_map(&map);
     if (res < 0) {

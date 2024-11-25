@@ -1,9 +1,9 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O2
+CFLAGS = -Wall -Wextra -Og -ggdb3
 
 VALGRIND = valgrind
 LOGDIR = log
-VALGRIND_FLAGS = --leak-check=full --show-leak-kinds=all --verbose --log-file=$(LOGDIR)/log
+VALGRIND_FLAGS = --leak-check=full --show-leak-kinds=all --log-file=$(LOGDIR)/log
 
 BUILDDIR = build
 SRCDIR = src
@@ -30,8 +30,8 @@ $(BUILDDIR)/main: $(OBJ)
 run: $(BUILDDIR)/main
 	./$(BUILDDIR)/main
 
-valgrind:
-	$(VALGRIND) $(VALGRIND_FLAGS) make run
+valgrind: $(BUILDDIR)/main
+	$(VALGRIND) $(VALGRIND_FLAGS) ./$(BUILDDIR)/main
 
 .PHONY: clean
 
