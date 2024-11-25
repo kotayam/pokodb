@@ -15,13 +15,16 @@ _DEPS = hashmap.h
 DEPS = $(patsubst %, $(INCLUDEDIR)/%, $(_DEPS))
 
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.c $(INCLUDEDIR)/%.h
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	mkdir -p $(BUILDDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
 $(BUILDDIR)/main: $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^
+
+run: $(BUILDDIR)/main
+	./$(BUILDDIR)/main
 
 .PHONY: clean
 
