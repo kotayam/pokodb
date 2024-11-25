@@ -1,6 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2
 
+VALGRIND = valgrind
+LOGDIR = log
+VALGRIND_FLAGS = --leak-check=full --show-leak-kinds=all --verbose --log-file=$(LOGDIR)/log
+
 BUILDDIR = build
 SRCDIR = src
 INCLUDEDIR = include
@@ -11,7 +15,7 @@ OBJ = $(patsubst %, $(BUILDDIR)/%, $(_OBJ))
 _SRC = main.c hashmap.c
 SRC = $(patsubst %, $(SRCDIR)/%, $(_SRC))
 
-_DEPS = hashmap.h
+_DEPS = hashmap.h errors.h
 DEPS = $(patsubst %, $(INCLUDEDIR)/%, $(_DEPS))
 
 
@@ -25,6 +29,9 @@ $(BUILDDIR)/main: $(OBJ)
 
 run: $(BUILDDIR)/main
 	./$(BUILDDIR)/main
+
+valgrind:
+	$(VALGRIND) $(VALGRIND_FLAGS) make run
 
 .PHONY: clean
 

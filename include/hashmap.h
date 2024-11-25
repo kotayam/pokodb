@@ -14,7 +14,7 @@ typedef struct hashmap_t {
     int size;
 } hashmap;
 
-hashmap* create_map();
+int create_map(hashmap** map);
 
 void hash();
 
