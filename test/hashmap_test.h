@@ -9,4 +9,6 @@ void insert_test();
 
 void get_test();
 
+void hash_test();
+
 #endif

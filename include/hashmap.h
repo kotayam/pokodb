@@ -8,6 +8,8 @@
 
 #define TABLE_SIZE 100
 
+typedef unsigned int tb_size;
+
 typedef struct key_value_t {
     char* key;
     char* value;
@@ -16,12 +18,12 @@ typedef struct key_value_t {
 
 typedef struct hashmap_t {
     key_value** entries;
-    unsigned int size;
+    tb_size size;
 } hashmap;
 
 short create_map(hashmap** map);
 
-unsigned int hash(char* key);
+tb_size hash(char* key);
 
 short insert(char* key, char* value, hashmap* map);
 

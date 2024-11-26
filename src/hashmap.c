@@ -18,8 +18,8 @@ short create_map(hashmap** map) {
     return 0;
 }
 
-unsigned int hash(char* key) {
-    unsigned int hash = 5381;
+tb_size hash(char* key) {
+    tb_size hash = 5381;
     int c;
 
     while ((c = *key++)) {

@@ -33,6 +33,10 @@ void print_test_result(char* expected, char* actual) {
     printf("expected: %s, actual: %s\n", expected, actual);
 }
 
+void print_hash_result(char* key, tb_size hash) {
+    printf("hash: %s -> %d\n", key, hash);
+}
+
 void insert_test() {
     print_test_name("insert test");
     hashmap* map = NULL;
@@ -94,4 +98,14 @@ void get_test() {
     }
 
     free_map(map);
+}
+
+void hash_test() {
+    print_test_name("hash test");
+    char* key_one = "test";
+    print_hash_result(key_one, hash(key_one));
+
+    char* key_two = "hello";
+    print_hash_result(key_two, hash(key_two));
+
 }
