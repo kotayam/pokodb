@@ -14,4 +14,6 @@ void get_test();
 
 void hash_test();
 
+void delete_test();
+
 #endif

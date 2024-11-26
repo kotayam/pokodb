@@ -34,7 +34,7 @@ short insert(char* key, char* value, hashmap* map) {
     if (val != NULL) {
         return KEY_EXISTS;
     } 
-    
+
     tb_size index = hash(key);
 
     // save first node
@@ -72,6 +72,41 @@ char* get(char* key, hashmap* map) {
         node = node->next;
     }
     return NULL;
+}
+
+short delete(char* key, hashmap* map) {
+    tb_size index = hash(key);
+    
+    key_value* curr = map->entries[index];
+    if (curr == NULL) {
+        return KEY_DOES_NOT_EXIST;
+    }
+    if (strcmp(curr->key, key) == 0) {
+        // first is match
+        map->entries[index] = curr->next;
+        free(curr);
+        map->size--;
+        return 0;
+    }
+    key_value* prev = curr;
+    curr = curr->next;
+    while (curr != NULL) {
+        bool match = strcmp(curr->key, key) == 0;
+        if (!match) {
+            // check next
+            prev = curr;
+            curr = curr->next;
+        } else {
+            // delete curr node
+            prev->next = curr->next;
+            free(curr);
+            curr = NULL;
+            map->size--;
+            return 0;
+        }
+    }
+
+    return KEY_DOES_NOT_EXIST;
 }
 
 void print_map(hashmap* map) {

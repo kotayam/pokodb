@@ -37,6 +37,10 @@ void print_hash_result(char* key, tb_size hash) {
     printf("hash: %s -> %d\n", key, hash);
 }
 
+void print_delete_result(char* key) {
+    printf("deleted key: %s\n", key);
+}
+
 void insert_test() {
     print_test_name("insert test");
     hashmap* map = NULL;
@@ -58,6 +62,7 @@ void insert_test() {
     if (res <0) {
         print_error(res, INSERT_ERROR);
         free_map(map);
+        return;
     }
 
     print_map(map);
@@ -137,4 +142,37 @@ void hash_test() {
 
     char* key_two = "hello";
     print_hash_result(key_two, hash(key_two));
+}
+
+void delete_test() {
+    print_test_name("delete test");
+
+    hashmap* map = NULL;
+    short res = before(&map);
+    if (res < 0) {
+        print_error(res, BEFORE_ERROR);
+        return;
+    }
+
+    res = delete("hi", map);
+    if (res < 0) {
+        print_error(res, DELETE_ERROR);
+        printf(FAIL_TEST);
+        free_map(map);
+        return;
+    }
+     print_delete_result("hi");
+     print_map(map);
+
+    res = delete("hello", map);
+    if (res < 0) {
+        print_error(res, DELETE_ERROR);
+        printf(FAIL_TEST);
+        free_map(map);
+        return;
+    }
+    print_delete_result("hello");
+
+    print_map(map);
+    free_map(map);
 }
