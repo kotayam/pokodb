@@ -1,23 +1,23 @@
 #include "hashmap_test.h"
 
-int before(hashmap** map) {
-    int res = create_map(map);
+short before(hashmap** map) {
+    short res = create_map(map);
     if (res < 0) {
-        printf(CREATE_MAP_ERROR);
+        print_error(res, CREATE_MAP_ERROR);
         free_map(*map);
         return res;
     }
 
     res = insert("hi", "hi", *map);
     if (res < 0) {
-        printf(INSERT_ERROR);
+        print_error(res, INSERT_ERROR);
         free_map(*map);
         return res;
     }
 
     res = insert("hello", "hello", *map);
     if (res <0) {
-        printf(INSERT_ERROR);
+        print_error(res, INSERT_ERROR);
         free_map(*map);
         return res;
     }
@@ -40,23 +40,23 @@ void print_hash_result(char* key, tb_size hash) {
 void insert_test() {
     print_test_name("insert test");
     hashmap* map = NULL;
-    int res = create_map(&map);
+    short res = create_map(&map);
     if (res < 0) {
-        printf(CREATE_MAP_ERROR);
+        print_error(res, CREATE_MAP_ERROR);
         free_map(map);
         return;
     }
 
     res = insert("hi", "hi", map);
     if (res < 0) {
-        printf(INSERT_ERROR);
+        print_error(res, INSERT_ERROR);
         free_map(map);
         return;
     }
 
     res = insert("hello", "hello", map);
     if (res <0) {
-        printf(INSERT_ERROR);
+        print_error(res, INSERT_ERROR);
         free_map(map);
     }
 
@@ -70,7 +70,7 @@ void get_test() {
     hashmap* map = NULL;
     int res = before(&map);
     if (res < 0) {
-        printf(BEFORE_ERROR);
+        print_error(res, BEFORE_ERROR);
         return;
     }
 
@@ -107,5 +107,4 @@ void hash_test() {
 
     char* key_two = "hello";
     print_hash_result(key_two, hash(key_two));
-
 }

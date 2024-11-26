@@ -30,8 +30,12 @@ tb_size hash(char* key) {
 }
 
 short insert(char* key, char* value, hashmap* map) {
-    // TODO: hash key to identify index in entries array
-    int index = 0;
+    char* val = get(key, map);
+    if (val != NULL) {
+        return KEY_EXISTS;
+    } 
+    
+    tb_size index = hash(key);
 
     // save first node
     key_value* node = map->entries[index];
@@ -57,8 +61,7 @@ short insert(char* key, char* value, hashmap* map) {
 }
 
 char* get(char* key, hashmap* map) {
-    //TODO: find index by hash
-    int index = 0;
+    tb_size index = hash(key);
 
     // get first node
     key_value* node = map->entries[index];
