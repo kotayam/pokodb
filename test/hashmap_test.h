@@ -8,6 +8,8 @@
 
 void insert_test();
 
+void insert_same_key_test();
+
 void get_test();
 
 void hash_test();

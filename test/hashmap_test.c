@@ -65,6 +65,36 @@ void insert_test() {
     free_map(map);
 }
 
+void insert_same_key_test() {
+    print_test_name("insert same key test");
+    hashmap* map = NULL;
+    short res = create_map(&map);
+    if (res < 0) {
+        print_error(res, CREATE_MAP_ERROR);
+        free_map(map);
+        return;
+    }
+
+    res = insert("test", "test", map);
+    if (res < 0) {
+        print_error(res, INSERT_ERROR);
+        free_map(map);
+        return;
+    }
+
+    res = insert("test", "hello", map);
+    if (res < 0) {
+        print_error(res, INSERT_ERROR);
+        printf(PASS_TEST);
+        free_map(map);
+        return;
+    }
+
+    printf(FAIL_TEST);
+    free_map(map);
+    return;
+}
+
 void get_test() {
     print_test_name("get test");
     hashmap* map = NULL;
