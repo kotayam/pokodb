@@ -16,16 +16,18 @@ typedef struct key_value_t {
 
 typedef struct hashmap_t {
     key_value** entries;
-    int size;
+    unsigned int size;
 } hashmap;
 
-int create_map(hashmap** map);
+short create_map(hashmap** map);
 
-void hash();
+unsigned int hash(char* key);
 
-int insert(char* key, char* value, hashmap* map);
+short insert(char* key, char* value, hashmap* map);
 
 char* get(char* key, hashmap* map);
+
+short delete(char* key, hashmap* map);
 
 void print_map(hashmap* map);
 

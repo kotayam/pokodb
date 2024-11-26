@@ -1,6 +1,6 @@
 #include "../include/hashmap.h"
 
-int create_map(hashmap** map) {
+short create_map(hashmap** map) {
     *map = malloc(sizeof(hashmap)); 
     if (*map == NULL) {
         return NOT_ENOUGH_MEMORY;
@@ -18,7 +18,18 @@ int create_map(hashmap** map) {
     return 0;
 }
 
-int insert(char* key, char* value, hashmap* map) {
+unsigned int hash(char* key) {
+    unsigned int hash = 5381;
+    int c;
+
+    while ((c = *key++)) {
+        hash = ((hash << 5) + hash) + c;
+    }
+
+    return hash % TABLE_SIZE;
+}
+
+short insert(char* key, char* value, hashmap* map) {
     // TODO: hash key to identify index in entries array
     int index = 0;
 
@@ -40,6 +51,8 @@ int insert(char* key, char* value, hashmap* map) {
         new->next = node;
     }
 
+    map->size++;
+
     return 0;
 }
 
@@ -59,6 +72,7 @@ char* get(char* key, hashmap* map) {
 }
 
 void print_map(hashmap* map) {
+    printf("map size: %d\n", map->size);
     for (int i = 0; i < TABLE_SIZE; i++) {
         key_value* node = map->entries[i];
         while (node != NULL) {
