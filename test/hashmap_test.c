@@ -75,7 +75,6 @@ void insert_same_key_test() {
     short res = create_map(&map);
     if (res < 0) {
         print_error(res, CREATE_MAP_ERROR);
-        free_map(map);
         return;
     }
 
@@ -211,7 +210,7 @@ void delete_same_key_test() {
 }
 
 void delete_and_insert_test() {
-    print_test_name("delete and insert");
+    print_test_name("delete and insert test");
 
     hashmap* map = NULL;
     short res = create_map(&map);
@@ -263,4 +262,44 @@ void delete_and_insert_test() {
     print_map(map);
     free_map(map);
 
+}
+
+void update_test() {
+    print_test_name("update test");
+
+    hashmap* map = NULL;
+    short res = before(&map);
+    if (res < 0) {
+        print_error(res, BEFORE_ERROR);
+        return;
+    }
+    print_map(map);
+
+    res = update("hi", "new value!", map);
+    if (res < 0) {
+        print_error(res, UPDATE_ERROR);
+        printf(FAIL_TEST);
+        free_map(map);
+        return;
+    }
+    print_map(map);
+
+    res = update("hello", "Hello World!", map);
+    if (res < 0) {
+        print_error(res, UPDATE_ERROR);
+        printf(FAIL_TEST);
+        free_map(map);
+        return;
+    }
+    print_map(map);
+
+    res = update("no exist", "no exist", map);
+    if (res < 0) {
+        print_error(res, UPDATE_ERROR);
+        printf(PASS_TEST);
+    } else {
+        printf(FAIL_TEST);
+    }
+    print_map(map);
+    free_map(map);
 }

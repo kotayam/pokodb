@@ -20,4 +20,6 @@ void delete_same_key_test();
 
 void delete_and_insert_test();
 
+void update_test();
+
 #endif

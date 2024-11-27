@@ -141,16 +141,16 @@ short update(char* key, char* value, hashmap* map) {
         }
         node = node->next;
     }
-    
+
     return KEY_DOES_NOT_EXIST;
 }
 
 void print_map(hashmap* map) {
-    printf("map size: %d\n", map->size);
+    printf("MAP SIZE: %d\n", map->size);
     for (int i = 0; i < TABLE_SIZE; i++) {
         key_value* node = map->entries[i];
         while (node != NULL) {
-            printf("Key: %s, Value: %s\n", node->key, node->value);
+            printf("KEY: %s, VALUE: %s\n", node->key, node->value);
             node = node->next;
         }
     }
