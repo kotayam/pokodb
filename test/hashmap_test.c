@@ -233,7 +233,7 @@ void delete_and_insert_test() {
     for (int i = 0; i < 5; i++) {
         char str[8];
         sprintf(str, "%d", i);
-        res = insert(str, users[i], map);
+        res = insert(users[i], str, map);
         if (res < 0) {
             print_error(res, INSERT_ERROR);
         }
@@ -244,12 +244,23 @@ void delete_and_insert_test() {
     for (int i = 0; i < 5; i++) {
         char str[8];
         sprintf(str, "%d", i);
-        char* name = get(str, map);
-        if (name == NULL) {
+        char* idx = get(users[i], map);
+        if (idx == NULL) {
             print_error(res, GET_ERROR);
             continue;
         }
-        print_test_result(users[i], name);
+        print_test_result(str, idx);
     }
+
+    // delete users
+    for (int i = 0; i < 5; i++) {
+        res = delete(users[i], map);
+        if (res < 0) {
+            print_error(res, DELETE_ERROR);
+        }
+        print_delete_result(users[i]);
+    }
+    print_map(map);
+    free_map(map);
 
 }

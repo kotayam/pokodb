@@ -53,6 +53,7 @@ short insert(char* key, char* value, hashmap* map) {
     }
     char* value_copy = strdup(value);
     if (value_copy == NULL) {
+        free(key_copy);
         return NOT_ENOUGH_MEMORY;
     }
     new->key = key_copy;
@@ -94,6 +95,8 @@ short delete(char* key, hashmap* map) {
     if (strcmp(curr->key, key) == 0) {
         // first is match
         map->entries[index] = curr->next;
+        free(curr->key);
+        free(curr->value);
         free(curr);
         map->size--;
         return 0;
@@ -109,6 +112,8 @@ short delete(char* key, hashmap* map) {
         } else {
             // delete curr node
             prev->next = curr->next;
+            free(curr->key);
+            free(curr->value);
             free(curr);
             curr = NULL;
             map->size--;

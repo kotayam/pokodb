@@ -32,6 +32,8 @@ char* get(char* key, hashmap* map);
 
 short delete(char* key, hashmap* map);
 
+short update(char* key, char* value, hashmap* map);
+
 void print_map(hashmap* map);
 
 void free_map(hashmap* map);
