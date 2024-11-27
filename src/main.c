@@ -1,8 +1,6 @@
-#include "../include/hashmap.h"
-#include "../include/errors.h"
+#include "../include/cli.h"
 
 int main() {
-    hashmap* map = NULL;
-    free_map(map);
+    cli_loop();
     return 0;
 }
