@@ -124,6 +124,27 @@ short delete(char* key, hashmap* map) {
     return KEY_DOES_NOT_EXIST;
 }
 
+short update(char* key, char* value, hashmap* map) {
+    tb_size index = hash(key);
+
+    key_value* node = map->entries[index];
+    while (node != NULL) {
+        if (strcmp(node->key, key) == 0) {
+            char* value_copy = strdup(value);
+            if (value_copy == NULL) {
+                return NOT_ENOUGH_MEMORY;
+            }
+            char* old = node->value;
+            node->value = value_copy;
+            free(old);
+            return 0;
+        }
+        node = node->next;
+    }
+    
+    return KEY_DOES_NOT_EXIST;
+}
+
 void print_map(hashmap* map) {
     printf("map size: %d\n", map->size);
     for (int i = 0; i < TABLE_SIZE; i++) {
