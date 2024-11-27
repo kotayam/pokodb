@@ -25,6 +25,7 @@
 #define INVALID_COMMAND -24
 
 // error message for CLI
+#define SIGNAL_HANDLER_ERROR "failed to set signal handler\n"
 #define COMMAND_ERROR "error with command"
 #define EXECUTE_ERROR "error while executing command"
 

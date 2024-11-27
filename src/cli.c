@@ -7,7 +7,23 @@ void quit();
 void free_command(char* operation, char* key, char* value);
 void print_command(char* operation, char* key, char* value);
 
+volatile sig_atomic_t terminate = 0;
+
+void handle_sigint() {
+    terminate = 1;
+    printf(EXIT);
+}
+
 void cli_loop() {
+    struct sigaction sa;
+    sa.sa_handler = handle_sigint;
+    sa.sa_flags = 0;
+    sigemptyset(&sa.sa_mask);
+    if (sigaction(SIGINT, &sa, NULL) < 0) {
+        printf(SIGNAL_HANDLER_ERROR);
+        return;
+    }
+
     hashmap* map = NULL;
     short res = create_map(&map);
     if (res < 0) {
@@ -17,7 +33,11 @@ void cli_loop() {
     printf(WELCOME);
     printf(INSTRUCTION);
 
-    while(true) {
+    char* operation = NULL;
+    char* key = NULL;
+    char* value = NULL;
+
+    while(true && !terminate) {
         write_prompt();
 
         char cmd[COMMAND_LENGTH];
@@ -31,9 +51,6 @@ void cli_loop() {
             continue;
         }
 
-        char* operation = NULL;
-        char* key = NULL;
-        char* value = NULL;
         res = get_operation(&operation, &key, &value, cmd);
         if (res < 0) {
             print_error(res, COMMAND_ERROR);
@@ -44,15 +61,17 @@ void cli_loop() {
 
         res = execute_command(operation, key, value);
         if (res == 1) {
-            free_command(operation, key, value);
             break;
         } else if (res < 0) {
             print_error(res, EXECUTE_ERROR);
             free_command(operation, key, value);
             continue;
         }
+
+        free_command(operation, key, value);
     }
 
+    free_command(operation, key, value);
     free_map(map);
 }
 
