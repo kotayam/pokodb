@@ -10,6 +10,7 @@
 
 // error message
 #define CREATE_MAP_ERROR "error creating map"
+#define GET_ERROR "error in get"
 #define INSERT_ERROR "error inserting"
 #define BEFORE_ERROR "error in test before"
 #define DELETE_ERROR "error deleting"

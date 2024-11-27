@@ -16,4 +16,8 @@ void hash_test();
 
 void delete_test();
 
+void delete_same_key_test();
+
+void delete_and_insert_test();
+
 #endif

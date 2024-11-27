@@ -66,7 +66,6 @@ void insert_test() {
     }
 
     print_map(map);
-
     free_map(map);
 }
 
@@ -175,4 +174,82 @@ void delete_test() {
 
     print_map(map);
     free_map(map);
+}
+
+void delete_same_key_test() {
+    print_test_name("delete same key test");
+
+    hashmap* map = NULL;
+    short res = before(&map);
+    if (res < 0) {
+        print_error(res, BEFORE_ERROR);
+        return;
+    }
+
+    res = delete("hi", map);
+    if (res < 0) {
+        print_error(res, DELETE_ERROR);
+        printf(FAIL_TEST);
+        free_map(map);
+        return;
+    }
+    print_delete_result("hi");
+    print_map(map);
+
+    res = delete("hi", map);
+    if (res < 0) {
+        print_error(res, DELETE_ERROR);
+        printf(PASS_TEST);
+        free_map(map);
+        return;
+    }
+    print_delete_result("hi");
+    print_map(map);
+    printf(FAIL_TEST);
+
+    free_map(map);
+}
+
+void delete_and_insert_test() {
+    print_test_name("delete and insert");
+
+    hashmap* map = NULL;
+    short res = create_map(&map);
+    if (res < 0) {
+        print_error(res, CREATE_MAP_ERROR);
+        return;
+    }
+
+    res = delete("hello", map);
+    if (res < 0) {
+        print_error(res, DELETE_ERROR);
+    } else {
+        printf(FAIL_TEST);
+    }
+    print_map(map);
+
+    // insert users
+    char users[5][10] = {"Bob", "Patrick", "Jack", "Samantha", "Jolly"};
+    for (int i = 0; i < 5; i++) {
+        char str[8];
+        sprintf(str, "%d", i);
+        res = insert(str, users[i], map);
+        if (res < 0) {
+            print_error(res, INSERT_ERROR);
+        }
+    }
+    print_map(map);
+
+    // get users to check
+    for (int i = 0; i < 5; i++) {
+        char str[8];
+        sprintf(str, "%d", i);
+        char* name = get(str, map);
+        if (name == NULL) {
+            print_error(res, GET_ERROR);
+            continue;
+        }
+        print_test_result(users[i], name);
+    }
+
 }

@@ -6,6 +6,7 @@ short create_map(hashmap** map) {
         return NOT_ENOUGH_MEMORY;
     }
 
+    (*map)->size = 0;
     (*map)->entries = malloc(sizeof(key_value*) * TABLE_SIZE);
     if ((*map)->entries == NULL) {
         return NOT_ENOUGH_MEMORY;
@@ -14,6 +15,7 @@ short create_map(hashmap** map) {
     for (int i = 0; i < TABLE_SIZE; i++) {
         (*map)->entries[i] = NULL;
     }
+
 
     return 0;
 }
@@ -45,8 +47,16 @@ short insert(char* key, char* value, hashmap* map) {
     if (new == NULL) {
         return NOT_ENOUGH_MEMORY;
     }
-    new->key = key;
-    new->value = value;
+    char* key_copy = strdup(key);
+    if (key_copy == NULL) {
+        return NOT_ENOUGH_MEMORY;
+    }
+    char* value_copy = strdup(value);
+    if (value_copy == NULL) {
+        return NOT_ENOUGH_MEMORY;
+    }
+    new->key = key_copy;
+    new->value = value_copy;
     new->next = NULL;
 
     // insert to front
@@ -125,6 +135,8 @@ void free_map(hashmap* map) {
         key_value* node = map->entries[i];
         while (node != NULL) {
             key_value* next = node->next;
+            free(node->key);
+            free(node->value);
             free(node);
             node = next;
         }
