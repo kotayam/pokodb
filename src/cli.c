@@ -4,14 +4,13 @@ void write_prompt();
 short get_operation(char** operation, char** key, char** value, const char* cmd);
 short execute_command(char* operation, char* key, char* value);
 void quit();
-void free_command(char* operation, char* key, char* value);
+void free_command(char** operation, char** key, char** value);
 void print_command(char* operation, char* key, char* value);
 
-volatile sig_atomic_t terminate = 0;
+volatile sig_atomic_t terminate = false;
 
 void handle_sigint() {
-    terminate = 1;
-    printf(EXIT);
+    terminate = true;
 }
 
 void cli_loop() {
@@ -43,6 +42,10 @@ void cli_loop() {
         char cmd[COMMAND_LENGTH];
         
         if (fgets(cmd, COMMAND_LENGTH, stdin) == NULL) {
+            if (terminate) {
+                printf(EXIT);
+                continue;
+            }
             print_error(READ_COMMAND_ERROR, COMMAND_ERROR);
             continue;
         }
@@ -54,7 +57,7 @@ void cli_loop() {
         res = get_operation(&operation, &key, &value, cmd);
         if (res < 0) {
             print_error(res, COMMAND_ERROR);
-            free_command(operation, key, value);
+            free_command(&operation, &key, &value);
             continue;
         }
         print_command(operation, key, value);
@@ -64,14 +67,14 @@ void cli_loop() {
             break;
         } else if (res < 0) {
             print_error(res, EXECUTE_ERROR);
-            free_command(operation, key, value);
+            free_command(&operation, &key, &value);
             continue;
         }
 
-        free_command(operation, key, value);
+        free_command(&operation, &key, &value);
     }
 
-    free_command(operation, key, value);
+    free_command(&operation, &key, &value);
     free_map(map);
 }
 
@@ -115,10 +118,13 @@ short execute_command(char* operation, char* key, char* value) {
     return INVALID_COMMAND;
 }
 
-void free_command(char* operation, char* key, char* value) {
-    free(operation);
-    free(key);
-    free(value);
+void free_command(char** operation, char** key, char** value) {
+    free(*operation);
+    free(*key);
+    free(*value);
+    *operation = NULL;
+    *key = NULL;
+    *value = NULL;
 }
 
 void print_command(char* operation, char* key, char* value) {

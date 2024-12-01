@@ -1,7 +1,7 @@
 #ifndef CLI_H
 #define CLI_H
 
-#define _POSIX_C_SOURCE 199309L
+#define _POSIX_C_SOURCE 200809L
 
 #include "hashmap.h"
 #include <stdio.h>
@@ -25,7 +25,7 @@
 
 #define WELCOME "\nWelcome to PokoDB!\n"
 #define INSTRUCTION "For further instructions, please type help and press enter\n"
-#define EXIT "SIGINT received.\n"
+#define EXIT "SIGINT received."
 
 void cli_loop();
 
