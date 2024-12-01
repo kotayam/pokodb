@@ -26,6 +26,7 @@
 #define WELCOME "\nWelcome to PokoDB!\n"
 #define INSTRUCTION "For further instructions, please type help and press enter\n"
 #define EXIT "SIGINT received."
+#define HELP_MESSAGE "Here is the list of commands:\n"
 
 void cli_loop();
 
