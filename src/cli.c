@@ -129,7 +129,11 @@ short execute_command(char* operation, char* key, char* value, hashmap* map) {
         return update(key, value, map);
     } else if (strcmp(operation, DELETE) == 0) {
         return delete(key, map);
-    } else {
+    } else if (strcmp(operation, PRINT) == 0) {
+        print_map(map);
+        return 0;
+    }
+    else {
         return INVALID_COMMAND;
     }
 }

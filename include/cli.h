@@ -22,6 +22,7 @@
 #define GET "get"
 #define UPDATE "update"
 #define DELETE "delete"
+#define PRINT "print"
 
 #define WELCOME "\nWelcome to PokoDB!\n"
 #define INSTRUCTION "For further instructions, please type help and press enter\n"
