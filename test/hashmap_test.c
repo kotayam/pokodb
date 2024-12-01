@@ -108,23 +108,23 @@ void get_test() {
     }
 
     char* expected_one = "hi";
-    char* actual_one = get(expected_one, map);
-    if (actual_one == NULL) {
+    char* actual_one = NULL;
+    if (get(expected_one, &actual_one, map) < 0) {
         printf(FAIL_TEST);
     } else {
         print_test_result(expected_one, actual_one);
     }
 
     char* expected_two = "hello";
-    char* actual_two = get(expected_two, map);
-    if (actual_two == NULL) {
+    char* actual_two = NULL;
+    if (get(expected_two, &actual_two, map) < 0) {
         printf(FAIL_TEST);
     } else {
         print_test_result(expected_two, actual_two);
     }
 
-    char* no_exist = get("test", map);
-    if (no_exist == NULL) {
+    char* no_exist = NULL;
+    if (get("test", &no_exist, map) < 0) {
         printf(PASS_TEST);
     } else {
         print_test_result(NULL, no_exist);
@@ -243,8 +243,8 @@ void delete_and_insert_test() {
     for (int i = 0; i < 5; i++) {
         char str[8];
         sprintf(str, "%d", i);
-        char* idx = get(users[i], map);
-        if (idx == NULL) {
+        char* idx = NULL;
+        if (get(users[i], &idx, map) < 0) {
             print_error(res, GET_ERROR);
             continue;
         }

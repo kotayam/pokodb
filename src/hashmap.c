@@ -32,8 +32,8 @@ tb_size hash(char* key) {
 }
 
 short insert(char* key, char* value, hashmap* map) {
-    char* val = get(key, map);
-    if (val != NULL) {
+    char* res = NULL;
+    if (get(key, &res, map) >= 0) {
         return KEY_EXISTS;
     } 
 
@@ -71,18 +71,19 @@ short insert(char* key, char* value, hashmap* map) {
     return 0;
 }
 
-char* get(char* key, hashmap* map) {
+short get(char* key, char** res, hashmap* map) {
     tb_size index = hash(key);
 
     // get first node
     key_value* node = map->entries[index];
     while (node != NULL) {
         if (strcmp(node->key, key) == 0) {
-            return node->value;
+            *res = node->value;
+            return 0;
         }
         node = node->next;
     }
-    return NULL;
+    return KEY_DOES_NOT_EXIST;
 }
 
 short delete(char* key, hashmap* map) {

@@ -118,8 +118,8 @@ short execute_command(char* operation, char* key, char* value, hashmap* map) {
     } else if (strcmp(operation, INSERT) == 0) {
         return insert(key, value, map);
     } else if (strcmp(operation, GET) == 0) {
-        char* res = get(key, map);
-        if (res == NULL) {
+        char* res = NULL;
+        if (get(key, &res, map) < 0) {
             return KEY_DOES_NOT_EXIST;
         } else {
             printf("%s\n", res);
