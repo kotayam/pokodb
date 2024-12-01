@@ -17,13 +17,13 @@ TESTDIR = test
 # src
 MAIN = $(BUILDDIR)/main.o
 
-_OBJ = hashmap.o errors.o
+_OBJ = hashmap.o errors.o cli.o
 OBJ = $(patsubst %, $(BUILDDIR)/%, $(_OBJ)) 
 
-_SRC = main.c hashmap.c errors.c
+_SRC = main.c hashmap.c errors.c cli.c
 SRC = $(patsubst %, $(SRCDIR)/%, $(_SRC))
 
-_DEPS = hashmap.h errors.h
+_DEPS = hashmap.h errors.h cli.h
 DEPS = $(patsubst %, $(INCLUDEDIR)/%, $(_DEPS))
 
 # test
