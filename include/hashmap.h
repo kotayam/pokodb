@@ -28,7 +28,7 @@ tb_size hash(char* key);
 
 short insert(char* key, char* value, hashmap* map);
 
-char* get(char* key, hashmap* map);
+short get(char* key, char** res, hashmap* map);
 
 short delete(char* key, hashmap* map);
 

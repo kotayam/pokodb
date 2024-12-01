@@ -32,8 +32,8 @@ tb_size hash(char* key) {
 }
 
 short insert(char* key, char* value, hashmap* map) {
-    char* val = get(key, map);
-    if (val != NULL) {
+    char* res = NULL;
+    if (get(key, &res, map) >= 0) {
         return KEY_EXISTS;
     } 
 
@@ -71,18 +71,19 @@ short insert(char* key, char* value, hashmap* map) {
     return 0;
 }
 
-char* get(char* key, hashmap* map) {
+short get(char* key, char** res, hashmap* map) {
     tb_size index = hash(key);
 
     // get first node
     key_value* node = map->entries[index];
     while (node != NULL) {
         if (strcmp(node->key, key) == 0) {
-            return node->value;
+            *res = node->value;
+            return 0;
         }
         node = node->next;
     }
-    return NULL;
+    return KEY_DOES_NOT_EXIST;
 }
 
 short delete(char* key, hashmap* map) {
@@ -146,14 +147,23 @@ short update(char* key, char* value, hashmap* map) {
 }
 
 void print_map(hashmap* map) {
-    printf("MAP SIZE: %d\n", map->size);
+    printf("SIZE: %d\n", map->size);
+    if (map->size == 0) {
+        printf("{}\n");
+        return;
+    }
+    printf("{");
     for (int i = 0; i < TABLE_SIZE; i++) {
+        if (i == 0) {
+            printf("\n");
+        }
         key_value* node = map->entries[i];
         while (node != NULL) {
-            printf("KEY: %s, VALUE: %s\n", node->key, node->value);
+            printf("  %s: %s,\n", node->key, node->value);
             node = node->next;
         }
     }
+    printf("}\n");
 }
 
 void free_map(hashmap* map) {
