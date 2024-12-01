@@ -146,14 +146,23 @@ short update(char* key, char* value, hashmap* map) {
 }
 
 void print_map(hashmap* map) {
-    printf("MAP SIZE: %d\n", map->size);
+    printf("SIZE: %d\n", map->size);
+    if (map->size == 0) {
+        printf("{}\n");
+        return;
+    }
+    printf("{");
     for (int i = 0; i < TABLE_SIZE; i++) {
+        if (i == 0) {
+            printf("\n");
+        }
         key_value* node = map->entries[i];
         while (node != NULL) {
-            printf("KEY: %s, VALUE: %s\n", node->key, node->value);
+            printf("  %s: %s,\n", node->key, node->value);
             node = node->next;
         }
     }
+    printf("}\n");
 }
 
 void free_map(hashmap* map) {
