@@ -23,6 +23,8 @@
 #define READ_COMMAND_ERROR -22
 #define COPY_COMMAND_ERROR -23
 #define INVALID_COMMAND -24
+#define KEY_OR_VALUE_NOT_PROVIDED -25
+#define KEY_NOT_PROVIDED -26
 
 // error message for CLI
 #define SIGNAL_HANDLER_ERROR "failed to set signal handler\n"
