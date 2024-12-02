@@ -1,1 +1,1 @@
-An in memory database written in C
+An in-memory database written in C
