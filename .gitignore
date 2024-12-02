@@ -1,2 +1,3 @@
-build/
+./build/
 log/
+node-addon/node_modules/

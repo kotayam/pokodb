@@ -1,0 +1,1 @@
+cmd_Release/obj.target/pokodb.node := g++ -o Release/obj.target/pokodb.node -shared -pthread -rdynamic -m64  -Wl,-soname=pokodb.node -Wl,--start-group Release/obj.target/pokodb/../src/hashmap.o Release/obj.target/pokodb/binding.o -Wl,--end-group 

@@ -80,6 +80,13 @@ gdb: $(BUILDDIR)/main
 gdb_test: $(BUILDDIR)/test
 	$(GDB) ./$(BUILDDIR)/test
 
+# build for node-addon
+configure_addon:
+	cd node-addon && npx node-gyp configure
+
+build_addon: 
+	cd node-addon && npx node-gyp build
+
 # clean
 .PHONY: clean
 clean: 
