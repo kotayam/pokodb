@@ -8,14 +8,14 @@ short before(hashmap **map) {
         return res;
     }
 
-    res = insert("hi", "hi", *map);
+    res = hm_insert("hi", "hi", *map);
     if (res < 0) {
         print_error(res, INSERT_ERROR);
         free_map(*map);
         return res;
     }
 
-    res = insert("hello", "hello", *map);
+    res = hm_insert("hello", "hello", *map);
     if (res < 0) {
         print_error(res, INSERT_ERROR);
         free_map(*map);
@@ -47,14 +47,14 @@ void insert_test() {
         return;
     }
 
-    res = insert("hi", "hi", map);
+    res = hm_insert("hi", "hi", map);
     if (res < 0) {
         print_error(res, INSERT_ERROR);
         free_map(map);
         return;
     }
 
-    res = insert("hello", "hello", map);
+    res = hm_insert("hello", "hello", map);
     if (res < 0) {
         print_error(res, INSERT_ERROR);
         free_map(map);
@@ -74,14 +74,14 @@ void insert_same_key_test() {
         return;
     }
 
-    res = insert("test", "test", map);
+    res = hm_insert("test", "test", map);
     if (res < 0) {
         print_error(res, INSERT_ERROR);
         free_map(map);
         return;
     }
 
-    res = insert("test", "hello", map);
+    res = hm_insert("test", "hello", map);
     if (res < 0) {
         print_error(res, INSERT_ERROR);
         printf(PASS_TEST);
@@ -105,7 +105,7 @@ void get_test() {
 
     char *expected_one = "hi";
     char *actual_one = NULL;
-    if (get(expected_one, &actual_one, map) < 0) {
+    if (hm_get(expected_one, &actual_one, map) < 0) {
         printf(FAIL_TEST);
     } else {
         print_test_result(expected_one, actual_one);
@@ -113,14 +113,14 @@ void get_test() {
 
     char *expected_two = "hello";
     char *actual_two = NULL;
-    if (get(expected_two, &actual_two, map) < 0) {
+    if (hm_get(expected_two, &actual_two, map) < 0) {
         printf(FAIL_TEST);
     } else {
         print_test_result(expected_two, actual_two);
     }
 
     char *no_exist = NULL;
-    if (get("test", &no_exist, map) < 0) {
+    if (hm_get("test", &no_exist, map) < 0) {
         printf(PASS_TEST);
     } else {
         print_test_result(NULL, no_exist);
@@ -148,7 +148,7 @@ void delete_test() {
         return;
     }
 
-    res = delete("hi", map);
+    res = hm_delete("hi", map);
     if (res < 0) {
         print_error(res, DELETE_ERROR);
         printf(FAIL_TEST);
@@ -158,7 +158,7 @@ void delete_test() {
     print_delete_result("hi");
     print_map(map);
 
-    res = delete("hello", map);
+    res = hm_delete("hello", map);
     if (res < 0) {
         print_error(res, DELETE_ERROR);
         printf(FAIL_TEST);
@@ -181,7 +181,7 @@ void delete_same_key_test() {
         return;
     }
 
-    res = delete("hi", map);
+    res = hm_delete("hi", map);
     if (res < 0) {
         print_error(res, DELETE_ERROR);
         printf(FAIL_TEST);
@@ -191,7 +191,7 @@ void delete_same_key_test() {
     print_delete_result("hi");
     print_map(map);
 
-    res = delete("hi", map);
+    res = hm_delete("hi", map);
     if (res < 0) {
         print_error(res, DELETE_ERROR);
         printf(PASS_TEST);
@@ -215,7 +215,7 @@ void delete_and_insert_test() {
         return;
     }
 
-    res = delete("hello", map);
+    res = hm_delete("hello", map);
     if (res < 0) {
         print_error(res, DELETE_ERROR);
     } else {
@@ -228,7 +228,7 @@ void delete_and_insert_test() {
     for (int i = 0; i < 5; i++) {
         char str[8];
         sprintf(str, "%d", i);
-        res = insert(users[i], str, map);
+        res = hm_insert(users[i], str, map);
         if (res < 0) {
             print_error(res, INSERT_ERROR);
         }
@@ -240,7 +240,7 @@ void delete_and_insert_test() {
         char str[8];
         sprintf(str, "%d", i);
         char *idx = NULL;
-        if (get(users[i], &idx, map) < 0) {
+        if (hm_get(users[i], &idx, map) < 0) {
             print_error(res, GET_ERROR);
             continue;
         }
@@ -249,7 +249,7 @@ void delete_and_insert_test() {
 
     // delete users
     for (int i = 0; i < 5; i++) {
-        res = delete(users[i], map);
+        res = hm_delete(users[i], map);
         if (res < 0) {
             print_error(res, DELETE_ERROR);
         }
@@ -270,7 +270,7 @@ void update_test() {
     }
     print_map(map);
 
-    res = update("hi", "new value!", map);
+    res = hm_update("hi", "new value!", map);
     if (res < 0) {
         print_error(res, UPDATE_ERROR);
         printf(FAIL_TEST);
@@ -279,7 +279,7 @@ void update_test() {
     }
     print_map(map);
 
-    res = update("hello", "Hello World!", map);
+    res = hm_update("hello", "Hello World!", map);
     if (res < 0) {
         print_error(res, UPDATE_ERROR);
         printf(FAIL_TEST);
@@ -288,7 +288,7 @@ void update_test() {
     }
     print_map(map);
 
-    res = update("no exist", "no exist", map);
+    res = hm_update("no exist", "no exist", map);
     if (res < 0) {
         print_error(res, UPDATE_ERROR);
         printf(PASS_TEST);

@@ -30,9 +30,9 @@ tb_size hash(char *key) {
     return hash % TABLE_SIZE;
 }
 
-short insert(char *key, char *value, hashmap *map) {
+short hm_insert(char *key, char *value, hashmap *map) {
     char *res = NULL;
-    if (get(key, &res, map) >= 0) {
+    if (hm_get(key, &res, map) >= 0) {
         return KEY_EXISTS;
     }
 
@@ -70,7 +70,7 @@ short insert(char *key, char *value, hashmap *map) {
     return 0;
 }
 
-short get(char *key, char **res, hashmap *map) {
+short hm_get(char *key, char **res, hashmap *map) {
     tb_size index = hash(key);
 
     // get first node
@@ -85,7 +85,7 @@ short get(char *key, char **res, hashmap *map) {
     return KEY_DOES_NOT_EXIST;
 }
 
-short delete(char *key, hashmap *map) {
+short hm_delete(char *key, hashmap *map) {
     tb_size index = hash(key);
 
     key_value *curr = map->entries[index];
@@ -124,7 +124,7 @@ short delete(char *key, hashmap *map) {
     return KEY_DOES_NOT_EXIST;
 }
 
-short update(char *key, char *value, hashmap *map) {
+short hm_update(char *key, char *value, hashmap *map) {
     tb_size index = hash(key);
 
     key_value *node = map->entries[index];

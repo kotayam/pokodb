@@ -118,13 +118,13 @@ short execute_command(char *operation, char *key, char *value, hashmap *map) {
         if (key == NULL || value == NULL) {
             return KEY_OR_VALUE_NOT_PROVIDED;
         }
-        return insert(key, value, map);
+        return hm_insert(key, value, map);
     } else if (strcmp(operation, GET) == 0) {
         if (key == NULL) {
             return KEY_NOT_PROVIDED;
         }
         char *res = NULL;
-        if (get(key, &res, map) < 0) {
+        if (hm_get(key, &res, map) < 0) {
             return KEY_DOES_NOT_EXIST;
         } else {
             printf("%s\n", res);
@@ -134,12 +134,12 @@ short execute_command(char *operation, char *key, char *value, hashmap *map) {
         if (key == NULL || value == NULL) {
             return KEY_OR_VALUE_NOT_PROVIDED;
         }
-        return update(key, value, map);
+        return hm_update(key, value, map);
     } else if (strcmp(operation, DELETE) == 0) {
         if (key == NULL) {
             return KEY_NOT_PROVIDED;
         }
-        return delete(key, map);
+        return hm_delete(key, map);
     } else if (strcmp(operation, PRINT) == 0) {
         print_map(map);
         return 0;

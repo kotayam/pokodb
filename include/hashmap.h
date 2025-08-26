@@ -26,13 +26,13 @@ short create_map(hashmap **map);
 
 tb_size hash(char *key);
 
-short insert(char *key, char *value, hashmap *map);
+short hm_insert(char *key, char *value, hashmap *map);
 
-short get(char *key, char **res, hashmap *map);
+short hm_get(char *key, char **res, hashmap *map);
 
-short delete(char *key, hashmap *map);
+short hm_delete(char *key, hashmap *map);
 
-short update(char *key, char *value, hashmap *map);
+short hm_update(char *key, char *value, hashmap *map);
 
 void print_map(hashmap *map);
 
