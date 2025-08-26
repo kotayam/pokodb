@@ -15,8 +15,8 @@ VALGRIND_OUTPUT_TEST = --log-file=$(LOGDIR)/log_test.txt
 # clang-format
 CF = clang-format
 CF_FILES = $(SRCDIR)/*.c $(INCLUDEDIR)/*.h $(TESTDIR)/*.c $(TESTDIR)/*.h
-CF_FLAGS = -i
-CF_CHECK_FLAGS = --dry-run --Werror
+CF_FLAGS = -i --verbose
+CF_CHECK_FLAGS = --dry-run --Werror --verbose
 
 # directories
 BUILDDIR = build
