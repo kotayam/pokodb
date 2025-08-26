@@ -1,8 +1,8 @@
 #include "../include/cli.h"
 
 void write_prompt();
-short get_operation(char **operation, char **key, char **value,
-                    const char *cmd);
+short get_operation(
+    char **operation, char **key, char **value, const char *cmd);
 short execute_command(char *operation, char *key, char *value, hashmap *map);
 void free_command(char **operation, char **key, char **value);
 void print_command(char *operation, char *key, char *value);
@@ -78,8 +78,8 @@ void cli_loop() {
 
 void write_prompt() { printf(PROMPT); }
 
-short get_operation(char **operation, char **key, char **value,
-                    const char *cmd) {
+short get_operation(
+    char **operation, char **key, char **value, const char *cmd) {
     char *cmd_copy = strdup(cmd);
     if (cmd_copy == NULL) {
         return COPY_COMMAND_ERROR;
