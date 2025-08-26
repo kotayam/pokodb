@@ -31,6 +31,6 @@
 #define COMMAND_ERROR "error with command"
 #define EXECUTE_ERROR "error while executing command"
 
-void print_error(short code, char* message);
+void print_error(short code, char *message);
 
 #endif

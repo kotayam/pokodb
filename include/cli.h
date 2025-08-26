@@ -4,12 +4,11 @@
 #define _POSIX_C_SOURCE 200809L
 
 #include "hashmap.h"
-#include <stdio.h>
+#include <signal.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <signal.h>
-
 
 #define COMMAND_LENGTH 4096
 
@@ -25,7 +24,8 @@
 #define PRINT "print"
 
 #define WELCOME "\nWelcome to PokoDB!\n"
-#define INSTRUCTION "For further instructions, please type help and press enter\n"
+#define INSTRUCTION                                                            \
+  "For further instructions, please type help and press enter\n"
 #define EXIT "SIGINT received."
 #define HELP_MESSAGE "Here is the list of commands:\n"
 

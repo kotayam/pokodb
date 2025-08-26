@@ -1,10 +1,10 @@
 #ifndef HASHMAP_TEST_H
 #define HASHMAP_TEST_H
 
-#include "../include/hashmap.h"
 #include "../include/errors.h"
-#include <stdlib.h>
+#include "../include/hashmap.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void insert_test();
 
