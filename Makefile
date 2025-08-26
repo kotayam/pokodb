@@ -87,6 +87,11 @@ configure_addon:
 build_addon: 
 	cd node-addon && npx node-gyp build
 
+# format
+.PHONY: format
+format:
+	clang-format -i $(SRCDIR)/*.c $(INCLUDEDIR)/*.h $(TESTDIR)/*.c $(TESTDIR)/*.h
+
 # clean
 .PHONY: clean
 clean: 
