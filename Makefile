@@ -1,14 +1,24 @@
+# gcc
 CC = gcc
 CFLAGS = -Wall -Wextra -Og -ggdb3 -g -std=gnu11
 
+# gdb
 GDB = gdb
 
+# valgrind
 VALGRIND = valgrind
 LOGDIR = log
 VALGRIND_FLAGS = --leak-check=full --show-leak-kinds=all
 VALGRIND_OUTPUT = --log-file=$(LOGDIR)/log.txt
 VALGRIND_OUTPUT_TEST = --log-file=$(LOGDIR)/log_test.txt
 
+# clang-format
+CF = clang-format
+CF_FILES = $(SRCDIR)/*.c $(INCLUDEDIR)/*.h $(TESTDIR)/*.c $(TESTDIR)/*.h
+CF_FLAGS = -i
+CF_CHECK_FLAGS = --dry-run --Werror
+
+# directories
 BUILDDIR = build
 SRCDIR = src
 INCLUDEDIR = include
@@ -90,7 +100,11 @@ build_addon:
 # format
 .PHONY: format
 format:
-	clang-format -i $(SRCDIR)/*.c $(INCLUDEDIR)/*.h $(TESTDIR)/*.c $(TESTDIR)/*.h
+	$(CF) $(CF_FLAGS) $(CF_FILES)
+
+.PHONY: check_format
+check_format:
+	$(CF) $(CF_CHECK_FLAGS) $(CF_FILES)
 
 # clean
 .PHONY: clean
