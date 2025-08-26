@@ -2,40 +2,40 @@
 #define HASHMAP_H
 
 #include "errors.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define TABLE_SIZE 100
 
 typedef unsigned int tb_size;
 
 typedef struct key_value_t {
-    char* key;
-    char* value;
-    struct key_value_t* next;
+    char *key;
+    char *value;
+    struct key_value_t *next;
 } key_value;
 
 typedef struct hashmap_t {
-    key_value** entries;
+    key_value **entries;
     tb_size size;
 } hashmap;
 
-short create_map(hashmap** map);
+short create_map(hashmap **map);
 
-tb_size hash(char* key);
+tb_size hash(char *key);
 
-short insert(char* key, char* value, hashmap* map);
+short hm_insert(char *key, char *value, hashmap *map);
 
-short get(char* key, char** res, hashmap* map);
+short hm_get(char *key, char **res, hashmap *map);
 
-short delete(char* key, hashmap* map);
+short hm_delete(char *key, hashmap *map);
 
-short update(char* key, char* value, hashmap* map);
+short hm_update(char *key, char *value, hashmap *map);
 
-void print_map(hashmap* map);
+void print_map(hashmap *map);
 
-void free_map(hashmap* map);
+void free_map(hashmap *map);
 
 #endif

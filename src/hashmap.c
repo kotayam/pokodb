@@ -1,13 +1,13 @@
 #include "../include/hashmap.h"
 
-short create_map(hashmap** map) {
-    *map = malloc(sizeof(hashmap)); 
+short create_map(hashmap **map) {
+    *map = malloc(sizeof(hashmap));
     if (*map == NULL) {
         return NOT_ENOUGH_MEMORY;
     }
 
     (*map)->size = 0;
-    (*map)->entries = malloc(sizeof(key_value*) * TABLE_SIZE);
+    (*map)->entries = malloc(sizeof(key_value *) * TABLE_SIZE);
     if ((*map)->entries == NULL) {
         return NOT_ENOUGH_MEMORY;
     }
@@ -16,11 +16,10 @@ short create_map(hashmap** map) {
         (*map)->entries[i] = NULL;
     }
 
-
     return 0;
 }
 
-tb_size hash(char* key) {
+tb_size hash(char *key) {
     tb_size hash = 5381;
     int c;
 
@@ -31,27 +30,27 @@ tb_size hash(char* key) {
     return hash % TABLE_SIZE;
 }
 
-short insert(char* key, char* value, hashmap* map) {
-    char* res = NULL;
-    if (get(key, &res, map) >= 0) {
+short hm_insert(char *key, char *value, hashmap *map) {
+    char *res = NULL;
+    if (hm_get(key, &res, map) >= 0) {
         return KEY_EXISTS;
-    } 
+    }
 
     tb_size index = hash(key);
 
     // save first node
-    key_value* node = map->entries[index];
+    key_value *node = map->entries[index];
 
     // create new node
-    key_value* new = malloc(sizeof(key_value));
+    key_value *new = malloc(sizeof(key_value));
     if (new == NULL) {
         return NOT_ENOUGH_MEMORY;
     }
-    char* key_copy = strdup(key);
+    char *key_copy = strdup(key);
     if (key_copy == NULL) {
         return NOT_ENOUGH_MEMORY;
     }
-    char* value_copy = strdup(value);
+    char *value_copy = strdup(value);
     if (value_copy == NULL) {
         free(key_copy);
         return NOT_ENOUGH_MEMORY;
@@ -71,11 +70,11 @@ short insert(char* key, char* value, hashmap* map) {
     return 0;
 }
 
-short get(char* key, char** res, hashmap* map) {
+short hm_get(char *key, char **res, hashmap *map) {
     tb_size index = hash(key);
 
     // get first node
-    key_value* node = map->entries[index];
+    key_value *node = map->entries[index];
     while (node != NULL) {
         if (strcmp(node->key, key) == 0) {
             *res = node->value;
@@ -86,10 +85,10 @@ short get(char* key, char** res, hashmap* map) {
     return KEY_DOES_NOT_EXIST;
 }
 
-short delete(char* key, hashmap* map) {
+short hm_delete(char *key, hashmap *map) {
     tb_size index = hash(key);
-    
-    key_value* curr = map->entries[index];
+
+    key_value *curr = map->entries[index];
     if (curr == NULL) {
         return KEY_DOES_NOT_EXIST;
     }
@@ -102,7 +101,7 @@ short delete(char* key, hashmap* map) {
         map->size--;
         return 0;
     }
-    key_value* prev = curr;
+    key_value *prev = curr;
     curr = curr->next;
     while (curr != NULL) {
         bool match = strcmp(curr->key, key) == 0;
@@ -125,17 +124,17 @@ short delete(char* key, hashmap* map) {
     return KEY_DOES_NOT_EXIST;
 }
 
-short update(char* key, char* value, hashmap* map) {
+short hm_update(char *key, char *value, hashmap *map) {
     tb_size index = hash(key);
 
-    key_value* node = map->entries[index];
+    key_value *node = map->entries[index];
     while (node != NULL) {
         if (strcmp(node->key, key) == 0) {
-            char* value_copy = strdup(value);
+            char *value_copy = strdup(value);
             if (value_copy == NULL) {
                 return NOT_ENOUGH_MEMORY;
             }
-            char* old = node->value;
+            char *old = node->value;
             node->value = value_copy;
             free(old);
             return 0;
@@ -146,7 +145,7 @@ short update(char* key, char* value, hashmap* map) {
     return KEY_DOES_NOT_EXIST;
 }
 
-void print_map(hashmap* map) {
+void print_map(hashmap *map) {
     printf("SIZE: %d\n", map->size);
     if (map->size == 0) {
         printf("{}\n");
@@ -157,7 +156,7 @@ void print_map(hashmap* map) {
         if (i == 0) {
             printf("\n");
         }
-        key_value* node = map->entries[i];
+        key_value *node = map->entries[i];
         while (node != NULL) {
             printf("  %s: %s,\n", node->key, node->value);
             node = node->next;
@@ -166,11 +165,11 @@ void print_map(hashmap* map) {
     printf("}\n");
 }
 
-void free_map(hashmap* map) {
+void free_map(hashmap *map) {
     for (int i = 0; i < TABLE_SIZE; i++) {
-        key_value* node = map->entries[i];
+        key_value *node = map->entries[i];
         while (node != NULL) {
-            key_value* next = node->next;
+            key_value *next = node->next;
             free(node->key);
             free(node->value);
             free(node);
