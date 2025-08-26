@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Og -ggdb3 -g
+CFLAGS = -Wall -Wextra -Og -ggdb3 -g -std=gnu23
 
 GDB = gdb
 
