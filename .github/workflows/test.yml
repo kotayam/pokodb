@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential clang-format
+        run: sudo apt-get update && sudo apt-get install -y build-essential clang-format-20
 
       - name: Check versions
         run: clang-format --version && make --version && gcc --version
