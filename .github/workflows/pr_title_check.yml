@@ -11,5 +11,5 @@ jobs:
       - name: Check PR Title
         uses: Slashgear/action-check-pr-title@v4.3.0
         with:
-          regexp: "^(feat|test|ci|chore|enhance): .+ \[POK-\d+\]$"
+          regexp: "^(feat|test|ci|chore|enhance): .+ \\[POK-\\d+\\]$"
           helpMessage: "PR title must follow Conventional Commits, e.g., 'feat: add new feature [POK-123]'"
