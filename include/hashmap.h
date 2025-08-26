@@ -12,14 +12,14 @@
 typedef unsigned int tb_size;
 
 typedef struct key_value_t {
-  char *key;
-  char *value;
-  struct key_value_t *next;
+    char *key;
+    char *value;
+    struct key_value_t *next;
 } key_value;
 
 typedef struct hashmap_t {
-  key_value **entries;
-  tb_size size;
+    key_value **entries;
+    tb_size size;
 } hashmap;
 
 short create_map(hashmap **map);
