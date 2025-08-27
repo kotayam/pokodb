@@ -1,5 +1,21 @@
 #include "../include/hashmap_batch.h"
 
+typedef struct operation_t {
+    char *operation;
+    char *key;
+    char *value;
+} operation;
+
+typedef struct batch_t {
+    operation **operations;
+    int size;
+} batch;
+
+typedef struct job_t {
+    batch **batches;
+    int num_threads;
+} job;
+
 typedef struct thread_args_t {
     batch *batch;
     hashmap *map;
