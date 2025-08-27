@@ -25,4 +25,6 @@ short handle_operation(operation *ops, hashmap *map);
 
 short handle_batch(operation **ops, int num_threads);
 
+void free_batch(batch *batch);
+
 #endif

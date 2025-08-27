@@ -40,3 +40,10 @@ short handle_operation(operation *ops, hashmap *map) {
 }
 
 short handle_batch(operation **ops, int num_threads) {}
+
+void free_batch(batch *batch) {
+    for (int i = 0; i < batch->size; i++) {
+        free(batch->ops[i]);
+    }
+    free(batch);
+}
