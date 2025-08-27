@@ -136,14 +136,17 @@ short create_job(job **job, operation **operations, int num_ops,
     for (int i = 0; i < needed_threads; i++) {
         int size = num_ops / needed_threads;
         if (i == needed_threads - 1) {
-            size = num_ops % needed_threads;
+            size = size + num_ops % needed_threads;
         }
         operation **batch_ops = malloc(sizeof(operation *) * size);
         for (int j = 0; j < size; j++) {
             batch_ops[j] = operations[curr_ops + j];
         }
         batch *batch = NULL;
-        create_batch(&batch, batch_ops, size);
+        short res = create_batch(&batch, batch_ops, size);
+        if (res < 0) {
+            return res;
+        }
         batches[i] = batch;
 
         curr_ops = curr_ops + size;
@@ -187,7 +190,7 @@ void *handle_batch(void *arg) {
     batch *batch = args->batch;
     hashmap *map = args->map;
     int idx_thread = args->idx_thread;
-    printf("Thread %d started.\n", idx_thread);
+    printf("**Thread %d started for batch size %d\n", idx_thread, batch->size);
     for (int i = 0; i < batch->size; i++) {
         operation *ops = batch->operations[i];
         short res = handle_operation(ops, map);
