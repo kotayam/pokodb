@@ -3,27 +3,31 @@
 
 #include "errors.h"
 #include "hashmap.h"
+#include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
 
 typedef struct operation_t {
-    char *ops;
+    char *operation;
     char *key;
     char *value;
 } operation;
 
 typedef struct batch_t {
-    operation **ops;
+    operation **operations;
     int size;
 } batch;
 
+typedef struct job_t {
+    batch **batches;
+    int num_threads;
+} job;
+
 short create_operation(operation **ops, char *op, char *key, char *value);
 
-short create_batch(batch **batch, operation **ops, int size);
+short create_job(job **job, operation **ops, int num_ops, int num_threads);
 
-short handle_operation(operation *ops, hashmap *map);
-
-short handle_batch(operation **ops, int num_threads);
+short handle_batch(operation *ops, int num_threads);
 
 void free_batch(batch *batch);
 
