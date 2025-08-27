@@ -25,12 +25,6 @@ typedef struct job_t {
     int num_threads;
 } job;
 
-short create_operation(operation **ops, char *op, char *key, char *value);
-
-short create_job(job **job, operation **ops, int num_ops, int num_threads);
-
-short handle_job(job *job, hashmap *map);
-
 short run_batch(int num_operations, int num_threads, hashmap *map);
 
 #endif
