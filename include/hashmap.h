@@ -9,6 +9,11 @@
 
 #define TABLE_SIZE 100
 
+#define INSERT "insert"
+#define GET "get"
+#define UPDATE "update"
+#define DELETE "delete"
+
 typedef unsigned int tb_size;
 
 typedef struct key_value_t {
