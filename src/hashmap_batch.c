@@ -21,6 +21,22 @@ short create_batch(batch **batch, operation **ops, int size) {
     return 0;
 }
 
-short handle_operation(operation *ops) {}
+short handle_operation(operation *ops, hashmap *map) {
+    if (strcmp(ops->ops, "insert") == 0) {
+        return hm_insert(ops->key, ops->value, map);
+    } else if (strcmp(ops->ops, "get") == 0) {
+        char *res = NULL;
+        if (hm_get(ops->key, &res, map) < 0) {
+            return KEY_DOES_NOT_EXIST;
+        }
+        return 0;
+    } else if (strcmp(ops->ops, "delete") == 0) {
+        return hm_delete(ops->key, map);
+    } else if (strcmp(ops->ops, "update") == 0) {
+        return hm_update(ops->key, ops->value, map);
+    } else {
+        return INVALID_COMMAND;
+    }
+}
 
 short handle_batch(operation **ops, int num_threads) {}
