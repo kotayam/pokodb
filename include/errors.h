@@ -23,6 +23,7 @@
 #define INVALID_COMMAND -24
 #define KEY_OR_VALUE_NOT_PROVIDED -25
 #define KEY_NOT_PROVIDED -26
+#define NUM_OPS_THR_NOT_PROVIDED -27
 
 // error message for CLI
 #define SIGNAL_HANDLER_ERROR "failed to set signal handler\n"

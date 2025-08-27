@@ -146,12 +146,12 @@ short execute_command(char *operation, char *arg_one, char *arg_two,
         print_map(map);
         return 0;
     } else if (strcmp(operation, BATCH) == 0) {
+        if (arg_one == NULL || arg_two == NULL) {
+            return NUM_OPS_THR_NOT_PROVIDED;
+        }
         int num_operations = atoi(arg_one);
         int num_threads = atoi(arg_two);
-        if (run_batch(num_operations, num_threads, map) < 0) {
-            return 1;
-        }
-        return 0;
+        return run_batch(num_operations, num_threads, map);
     } else {
         return INVALID_COMMAND;
     }
@@ -208,6 +208,9 @@ void print_message(short res) {
         break;
     case KEY_NOT_PROVIDED:
         printf("Error: Missing key\n");
+        break;
+    case NUM_OPS_THR_NOT_PROVIDED:
+        printf("Error: Missing number of operations or number of threads\n");
         break;
     default:
         printf("An error occurred\n");
