@@ -27,8 +27,6 @@ short create_operation(operation **ops, char *op, char *key, char *value);
 
 short create_job(job **job, operation **ops, int num_ops, int num_threads);
 
-short handle_batch(operation *ops, int num_threads);
-
-void free_batch(batch *batch);
+short handle_job(job *job, hashmap *map);
 
 #endif

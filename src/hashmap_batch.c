@@ -1,7 +1,14 @@
 #include "../include/hashmap_batch.h"
 
+typedef struct thread_args_t {
+    batch *batch;
+    hashmap *map;
+} thread_args;
+
 short create_batch(batch **batch, operation **operations, int size);
 short handle_operation(operation *ops, hashmap *map);
+void *handle_batch(void *arg);
+void free_job(job *job);
 
 short create_operation(operation **operation, char *ops, char *key,
                        char *value) {
@@ -77,14 +84,36 @@ short handle_operation(operation *ops, hashmap *map) {
     }
 }
 
-short handle_batch(batch *batch, hashmap *map, int num_threads) {
+void *handle_batch(void *arg) {
+    thread_args *args = (thread_args *)arg;
+    batch *batch = args->batch;
+    hashmap *map = args->map;
+    for (int i = 0; i < batch->size; i++) {
+        operation *ops = batch->operations[i];
+        short res = handle_operation(ops, map);
+        if (res < 0) {
+            printf("Operation %s, %s, %s failed with %d\n", ops->operation,
+                   ops->key, ops->value, res);
+        }
+    }
+    return NULL;
+}
+
+short handle_job(job *job, hashmap *map) {
+    int num_threads = job->num_threads;
     pthread_t threads[num_threads];
-    for (int i = 0; i < num_threads; i++) {
-        pthread_create(&threads[i], NULL, NULL, NULL);
+    thread_args *args = malloc(sizeof(thread_args) * num_threads);
+    for (int i = 0; i < job->num_threads; i++) {
+        args[i].batch = job->batches[i];
+        args[i].map = map;
+        pthread_create(&threads[i], NULL, handle_batch, (void *)&args[i]);
     }
     for (int i = 0; i < num_threads; i++) {
         pthread_join(threads[i], NULL);
     }
+    free(args);
+    free_job(job);
+    return 0;
 }
 
 void free_job(job *job) {
