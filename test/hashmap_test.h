@@ -6,6 +6,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+extern int tests_failed;
+
+#define PASS_TEST                                                              \
+    do {                                                                       \
+        printf("PASS\n");                                                      \
+    } while (0)
+#define FAIL_TEST                                                              \
+    do {                                                                       \
+        printf("FAIL\n");                                                      \
+        tests_failed++;                                                        \
+    } while (0)
+
 void insert_test();
 
 void insert_same_key_test();
