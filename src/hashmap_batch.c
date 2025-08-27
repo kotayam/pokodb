@@ -10,6 +10,12 @@ short handle_operation(operation *ops, hashmap *map);
 void *handle_batch(void *arg);
 void free_job(job *job);
 
+short run_batch(int num_operations, int num_threads, hashmap *map) {
+    printf("Running batch with %d operations using %d threads. mapsize: %d",
+           num_operations, num_threads, map->size);
+    return 0;
+}
+
 short create_operation(operation **operation, char *ops, char *key,
                        char *value) {
     *operation = malloc(sizeof(struct operation_t));

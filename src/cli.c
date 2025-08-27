@@ -1,11 +1,12 @@
 #include "../include/cli.h"
 
 void write_prompt();
-short get_operation(char **operation, char **key, char **value,
+short get_operation(char **operation, char **arg_one, char **arg_two,
                     const char *cmd);
-short execute_command(char *operation, char *key, char *value, hashmap *map);
-void free_command(char **operation, char **key, char **value);
-void print_command(char *operation, char *key, char *value);
+short execute_command(char *operation, char *arg_one, char *arg_two,
+                      hashmap *map);
+void free_command(char **operation, char **arg_one, char **arg_two);
+void print_command(char *operation, char *arg_one, char *arg_two);
 void print_message(short res);
 
 volatile sig_atomic_t terminate = false;
@@ -32,8 +33,8 @@ void cli_loop() {
     printf(INSTRUCTION);
 
     char *operation = NULL;
-    char *key = NULL;
-    char *value = NULL;
+    char *arg_one = NULL;
+    char *arg_two = NULL;
 
     while (true && !terminate) {
         write_prompt();
@@ -53,32 +54,32 @@ void cli_loop() {
             continue;
         }
 
-        res = get_operation(&operation, &key, &value, cmd);
+        res = get_operation(&operation, &arg_one, &arg_two, cmd);
         if (res < 0) {
             print_message(res);
-            free_command(&operation, &key, &value);
+            free_command(&operation, &arg_one, &arg_two);
             continue;
         }
 
-        res = execute_command(operation, key, value, map);
+        res = execute_command(operation, arg_one, arg_two, map);
         if (res == 1) {
             break;
         } else if (res < 0) {
             print_message(res);
-            free_command(&operation, &key, &value);
+            free_command(&operation, &arg_one, &arg_two);
             continue;
         }
 
-        free_command(&operation, &key, &value);
+        free_command(&operation, &arg_one, &arg_two);
     }
 
-    free_command(&operation, &key, &value);
+    free_command(&operation, &arg_one, &arg_two);
     free_map(map);
 }
 
 void write_prompt() { printf(PROMPT); }
 
-short get_operation(char **operation, char **key, char **value,
+short get_operation(char **operation, char **arg_one, char **arg_two,
                     const char *cmd) {
     char *cmd_copy = strdup(cmd);
     if (cmd_copy == NULL) {
@@ -96,78 +97,86 @@ short get_operation(char **operation, char **key, char **value,
 
     res = strtok(NULL, delimiters);
     if (res != NULL) {
-        *key = strdup(res);
+        *arg_one = strdup(res);
     }
 
     res = strtok(NULL, delimiters);
     if (res != NULL) {
-        *value = strdup(res);
+        *arg_two = strdup(res);
     }
 
     free(cmd_copy);
     return 0;
 }
 
-short execute_command(char *operation, char *key, char *value, hashmap *map) {
+short execute_command(char *operation, char *arg_one, char *arg_two,
+                      hashmap *map) {
     if (strcmp(operation, QUIT) == 0) {
         return 1;
     } else if (strcmp(operation, HELP) == 0) {
         printf(HELP_MESSAGE);
         return 0;
     } else if (strcmp(operation, INSERT) == 0) {
-        if (key == NULL || value == NULL) {
+        if (arg_one == NULL || arg_two == NULL) {
             return KEY_OR_VALUE_NOT_PROVIDED;
         }
-        return hm_insert(key, value, map);
+        return hm_insert(arg_one, arg_two, map);
     } else if (strcmp(operation, GET) == 0) {
-        if (key == NULL) {
+        if (arg_one == NULL) {
             return KEY_NOT_PROVIDED;
         }
         char *res = NULL;
-        if (hm_get(key, &res, map) < 0) {
+        if (hm_get(arg_one, &res, map) < 0) {
             return KEY_DOES_NOT_EXIST;
         } else {
             printf("%s\n", res);
             return 0;
         }
     } else if (strcmp(operation, UPDATE) == 0) {
-        if (key == NULL || value == NULL) {
+        if (arg_one == NULL || arg_two == NULL) {
             return KEY_OR_VALUE_NOT_PROVIDED;
         }
-        return hm_update(key, value, map);
+        return hm_update(arg_one, arg_two, map);
     } else if (strcmp(operation, DELETE) == 0) {
-        if (key == NULL) {
+        if (arg_one == NULL) {
             return KEY_NOT_PROVIDED;
         }
-        return hm_delete(key, map);
+        return hm_delete(arg_one, map);
     } else if (strcmp(operation, PRINT) == 0) {
         print_map(map);
+        return 0;
+    } else if (strcmp(operation, BATCH) == 0) {
+        int num_operations = atoi(arg_one);
+        int num_threads = atoi(arg_two);
+        if (run_batch(num_operations, num_threads, map) < 0) {
+            return 1;
+        }
         return 0;
     } else {
         return INVALID_COMMAND;
     }
 }
 
-void free_command(char **operation, char **key, char **value) {
+void free_command(char **operation, char **arg_one, char **arg_two) {
     free(*operation);
-    free(*key);
-    free(*value);
+    free(*arg_one);
+    free(*arg_two);
     *operation = NULL;
-    *key = NULL;
-    *value = NULL;
+    *arg_one = NULL;
+    *arg_two = NULL;
 }
 
-void print_command(char *operation, char *key, char *value) {
+void print_command(char *operation, char *arg_one, char *arg_two) {
     if (operation != NULL) {
         printf("operation: %s\n", operation);
     }
 
-    if (key != NULL) {
-        printf("key: %s\n", key);
+    if (arg_one != NULL) {
+        printf("arg1: %s\n", arg_one);
     }
 
-    if (value != NULL) {
-        printf("value: %s\n", value);
+    if (arg_two != NULL) {
+        printf("arg2: %s\n", arg_two);
     }
 }
 
