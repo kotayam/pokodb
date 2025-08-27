@@ -27,13 +27,13 @@ TESTDIR = test
 # src
 MAIN = $(BUILDDIR)/main.o
 
-_OBJ = hashmap.o errors.o cli.o
+_OBJ = hashmap.o errors.o cli.o hashmap_batch.o
 OBJ = $(patsubst %, $(BUILDDIR)/%, $(_OBJ)) 
 
-_SRC = main.c hashmap.c errors.c cli.c
+_SRC = main.c hashmap.c errors.c cli.c hashmap_batch.c
 SRC = $(patsubst %, $(SRCDIR)/%, $(_SRC))
 
-_DEPS = hashmap.h errors.h cli.h
+_DEPS = hashmap.h errors.h cli.h hashmap_batch.h
 DEPS = $(patsubst %, $(INCLUDEDIR)/%, $(_DEPS))
 
 # test
