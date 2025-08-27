@@ -15,8 +15,6 @@
 #define BEFORE_ERROR "error in test before"
 #define DELETE_ERROR "error deleting"
 #define UPDATE_ERROR "error updating"
-#define FAIL_TEST "test failed!\n"
-#define PASS_TEST "test passed!\n"
 
 // error codes for CLI
 #define COMMAND_NOT_PROVIDED -21
