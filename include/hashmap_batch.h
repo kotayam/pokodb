@@ -15,9 +15,9 @@ typedef struct batch_t {
     int size;
 } batch;
 
-short create_operation(operation *ops, char *op, char *key, char *value);
+short create_operation(operation **ops, char *op, char *key, char *value);
 
-short create_batch(batch *batch, operation **ops, int size);
+short create_batch(batch **batch, operation **ops, int size);
 
 short handle_operation(operation *ops);
 
