@@ -19,6 +19,7 @@ typedef struct job_t {
 typedef struct thread_args_t {
     batch *batch;
     hashmap *map;
+    int idx_thread;
 } thread_args;
 
 short generate_operations(int num_operations, operation ***operations);
@@ -35,8 +36,8 @@ short handle_operation(operation *ops, hashmap *map);
 void free_job(job *job);
 
 short run_batch(int num_operations, int num_threads, hashmap *map) {
-    printf("Running batch with %d operations using %d threads.", num_operations,
-           num_threads);
+    printf("Running batch with %d operations using %d threads...\n",
+           num_operations, num_threads);
     operation **operations = NULL;
     short res = generate_operations(num_operations, &operations);
     if (res < 0) {
@@ -170,6 +171,7 @@ short handle_job(job *job, hashmap *map) {
     for (int i = 0; i < job->num_threads; i++) {
         args[i].batch = job->batches[i];
         args[i].map = map;
+        args[i].idx_thread = i;
         pthread_create(&threads[i], NULL, handle_batch, (void *)&args[i]);
     }
     for (int i = 0; i < num_threads; i++) {
@@ -184,12 +186,14 @@ void *handle_batch(void *arg) {
     thread_args *args = (thread_args *)arg;
     batch *batch = args->batch;
     hashmap *map = args->map;
+    int idx_thread = args->idx_thread;
+    printf("Thread %d started.\n", idx_thread);
     for (int i = 0; i < batch->size; i++) {
         operation *ops = batch->operations[i];
         short res = handle_operation(ops, map);
         if (res < 0) {
-            printf("Operation %s, %s, %s failed with %d\n", ops->operation,
-                   ops->key, ops->value, res);
+            printf("Thread %d: failed operation [%s] with %d \n", idx_thread,
+                   ops->operation, res);
         }
     }
     return NULL;
