@@ -1,4 +1,5 @@
 #include "../include/hashmap_batch.h"
+#include <stdio.h>
 
 typedef struct operation_t {
     char *operation;
@@ -32,6 +33,7 @@ short create_batch(batch **batch, operation **operations, int size);
 short handle_job(job *job, hashmap *map);
 void *handle_batch(void *arg);
 short handle_operation(operation *ops, hashmap *map);
+char *str_operation(operation *ops);
 
 void free_job(job *job);
 
@@ -181,7 +183,6 @@ short handle_job(job *job, hashmap *map) {
         pthread_join(threads[i], NULL);
     }
     free(args);
-    free_job(job);
     return 0;
 }
 
@@ -195,8 +196,11 @@ void *handle_batch(void *arg) {
         operation *ops = batch->operations[i];
         short res = handle_operation(ops, map);
         if (res < 0) {
-            printf("Thread %d: failed operation [%s] with %d \n", idx_thread,
-                   ops->operation, res);
+            printf("Thread %d: failed operation %s  with %d \n", idx_thread,
+                   str_operation(ops), res);
+        } else {
+            printf("Thread %d: completed operation %s\n", idx_thread,
+                   str_operation(ops));
         }
     }
     return NULL;
@@ -218,6 +222,20 @@ short handle_operation(operation *ops, hashmap *map) {
     } else {
         return INVALID_COMMAND;
     }
+}
+
+char *str_operation(operation *ops) {
+    int len = 128;
+    char *str = malloc(sizeof(char) * len);
+    if (strcmp(ops->operation, GET) == 0 ||
+        strcmp(ops->operation, DELETE) == 0) {
+        snprintf(str, len, "[%s k=%s]", ops->operation, ops->key);
+    } else if (strcmp(ops->operation, INSERT) == 0 ||
+               strcmp(ops->operation, UPDATE) == 0) {
+        snprintf(str, len, "[%s k=%s v=%s]", ops->operation, ops->key,
+                 ops->value);
+    }
+    return str;
 }
 
 void free_job(job *job) {
