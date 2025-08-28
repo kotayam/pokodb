@@ -146,11 +146,14 @@ short execute_command(char *operation, char *arg_one, char *arg_two,
         print_map(map);
         return 0;
     } else if (strcmp(operation, BATCH) == 0) {
-        if (arg_one == NULL || arg_two == NULL) {
+        if (arg_one == NULL) {
             return NUM_OPS_THR_NOT_PROVIDED;
         }
         int num_operations = atoi(arg_one);
-        int num_threads = atoi(arg_two);
+        int num_threads = 0;
+        if (arg_two != NULL) {
+            num_threads = atoi(arg_two);
+        }
         return run_batch(num_operations, num_threads, map);
     } else {
         return INVALID_COMMAND;

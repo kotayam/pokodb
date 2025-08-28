@@ -38,13 +38,32 @@ char *str_operation(operation *ops);
 void free_job(job *job);
 
 short run_batch(int num_operations, int num_threads, hashmap *map) {
-    printf("Running batch with %d operations using %d threads...\n",
-           num_operations, num_threads);
     operation **operations = NULL;
     short res = generate_operations(num_operations, &operations);
     if (res < 0) {
         return res;
     }
+
+    // if num_operations <= 0, run without multithreading.
+    if (num_threads <= 0) {
+        for (int i = 0; i < num_operations; i++) {
+            operation *ops = operations[i];
+            short res = handle_operation(ops, map);
+            if (res < 0) {
+                printf("%d failed %s\n", i, str_operation(ops));
+                free(ops->key);
+                free(ops->value);
+                continue;
+            }
+            printf("%d completed %s\n", i, str_operation(ops));
+            free(ops->key);
+            free(ops->value);
+        }
+        free(operations);
+        return 0;
+    }
+    printf("Running batch with %d operations using %d threads...\n",
+           num_operations, num_threads);
 
     job *job = NULL;
     res = create_job(&job, operations, num_operations, num_threads);
