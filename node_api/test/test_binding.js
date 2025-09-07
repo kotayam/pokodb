@@ -3,19 +3,33 @@ const assert = require("assert");
 
 assert(Pokodb, "The expected module is undefined");
 
-function testBasic()
-{
-    const instance = new Pokodb("mr-yeoman");
-    assert(instance.greet, "The expected method is not defined");
-    assert.strictEqual(instance.greet("kermit"), "mr-yeoman", "Unexpected value returned");
+function testMethodDefinition() {
+    const db = new Pokodb();
+    assert(db.insert, "insert is not defined");
+    assert(db.get, "get is not defined");
+    assert(db.delete, "delete is not defined");
+    assert(db.update, "update is not defined");
+    assert(db.close, "close is not defined");
+    db.close();
 }
 
-function testInvalidParams()
-{
-    const instance = new Pokodb();
+function testBasic() {
+    const db = new Pokodb();
+    db.insert("test", "hello");
+    assert.strictEqual(db.get("test"), "hello", "wrong value");
+    assert.throws(() => db.get("world"), Error, "Key should not exist");
+    assert.throws(() => db.insert("test"), Error, "Key already exists");
+
+    db.update("test", "world");
+    assert.strictEqual(db.get("test"), "world", "wrong value");
+
+    db.delete("test");
+    assert.throws(() => db.get("test"), Error, "Key shoudl not exist");
+
+    db.close();
 }
 
-assert.doesNotThrow(testBasic, undefined, "testBasic threw an expection");
-assert.throws(testInvalidParams, undefined, "testInvalidParams didn't throw");
+testMethodDefinition();
+testBasic();
 
 console.log("Tests passed- everything looks OK!");

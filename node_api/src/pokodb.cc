@@ -116,7 +116,7 @@ void Pokodb::Update(const Napi::CallbackInfo &info) {
     }
 
     std::string key = info[0].As<Napi::String>().Utf8Value();
-    std::string value = info[0].As<Napi::String>().Utf8Value();
+    std::string value = info[1].As<Napi::String>().Utf8Value();
 
     if (hm_update((char *)key.c_str(), (char *)value.c_str(),
                   (hashmap *)this->_map) < 0) {
