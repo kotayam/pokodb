@@ -5,9 +5,17 @@
   "main": "lib/binding.js",
   "scripts": {
     "test": "node --napi-modules ./test/test_binding.js",
-    "build": "node-gyp rebuild"
+    "build": "node-gyp rebuild",
+    "install": "npm run build"
   },
   "gypfile": true,
+  "files": [
+    "lib",
+    "napi_src",
+    "binding.gyp",
+    "../include/hashmap.h",
+    "../src/hashmap.c"
+  ],
   "author": "Kota Yamamoto",
   "license": "ISC",
   "dependencies": {
