@@ -1,16 +1,16 @@
 {
-  "name": "@heppoko/pokodb",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "main": "lib/binding.js",
   "dependencies": {
-    "node-addon-api": "^8.3.0",
-    "node-gyp": "^10.2.0",
-    "nopt": "^8.0.0"
-  }
+    "node-addon-api": "^1.1.0"
+  },
+  "scripts": {
+    "test": "node --napi-modules ./test/test_binding.js",
+    "build": "node-gyp configure build"
+  },
+  "gypfile": true,
+  "name": "pokodb",
+  "version": "1.0.0",
+  "author": "Kota Yamamoto",
+  "license": "ISC",
+  "description": ""
 }
