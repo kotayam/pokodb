@@ -8,6 +8,7 @@
     "node_api/lib",
     "node_api/src",
     "include/hashmap.h",
+    "include/errors.h",
     "src/hashmap.c",
     "binding.gyp"
   ],

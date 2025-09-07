@@ -2,7 +2,7 @@
   'targets': [
     {
       'target_name': 'pokodb-native',
-      'sources': [ 'node_api/src/pokodb.cc', "src/hashmap.c" ],
+      'sources': [ 'node_api/src/pokodb.cc', "src/hashmap.c"],
       'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")"],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags!': [ '-fno-exceptions' ],
