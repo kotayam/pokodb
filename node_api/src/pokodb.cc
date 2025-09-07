@@ -5,19 +5,46 @@ using namespace Napi;
 Pokodb::Pokodb(const Napi::CallbackInfo& info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() < 1) {
-        Napi::TypeError::New(env, "Wrong number of arguments")
-          .ThrowAsJavaScriptException();
+    if (info.Length() >= 1) {
+        ThrowTypeError("Wrong number of arguments");
         return;
     }
 
-    if (!info[0].IsString()) {
-        Napi::TypeError::New(env, "You need to name yourself")
-          .ThrowAsJavaScriptException();
+    hashmap *map = NULL;
+    if (create_map(&map) < 0) {
+        ThrowNewError("Not enough memory");
         return;
     }
 
-    this->_greeterName = info[0].As<Napi::String>().Utf8Value();
+    this->_map = map;
+}
+
+
+void Pokodb::Insert(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 2) {
+        ThrowTypeError(env, "Key and value not provided");
+        return; 
+    }
+
+    if (!info[0].isString()) {
+        ThrowTypeError(env, "Key needs to be string");
+        return;
+    }
+
+    if (!info[1].isString()) {
+        ThrowTypeError(env, "Value needs to be string");
+        return;
+    }
+
+    Napi::String key = info[0].As<Napi::String>();
+    Napi::String value = info[1].As<Napi::String>();
+
+    if (hm_insert(key, value, this->_map) < 0) {
+        ThrowNewError(env, "Failed to insert");
+        return;
+    }
 }
 
 Napi::Value Pokodb::Greet(const Napi::CallbackInfo& info) {
@@ -56,3 +83,11 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
 }
 
 NODE_API_MODULE(addon, Init)
+
+void Pokodb::ThrowNewError(Napi::Env env, const std::string& message) {
+    Napi::Error::New(env, message).ThrowAsJavaScriptException();
+}
+
+void Pokodb::ThrowTypeError(Napi::Env env, const std::string& message) {
+    Napi::TypeError::New(env, message).ThrowAsJavaScriptException();
+}
