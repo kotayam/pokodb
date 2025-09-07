@@ -76,11 +76,66 @@ Napi::Value Pokodb::Get(const Napi::CallbackInfo &info) {
     return Napi::String::New(env, res);
 }
 
-void Pokodb::Delete(const Napi::CallbackInfo &info) {}
+void Pokodb::Delete(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
 
-void Pokodb::Update(const Napi::CallbackInfo &info) {}
+    if (info.Length() != 1) {
+        ThrowTypeError(env, "Key not provided");
+        return;
+    }
 
-void Pokodb::Close(const Napi::CallbackInfo &info) {}
+    if (!info[0].IsString()) {
+        ThrowTypeError(env, "Key needs to be string");
+        return;
+    }
+
+    std::string key = info[0].As<Napi::String>().Utf8Value();
+
+    if (hm_delete((char *)key.c_str(), (hashmap *)this->_map) < 0) {
+        ThrowNewError(env, "Failed to delete key");
+        return;
+    }
+}
+
+void Pokodb::Update(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 2) {
+        ThrowTypeError(env, "Key and value not provided");
+        return;
+    }
+
+    if (!info[0].IsString()) {
+        ThrowTypeError(env, "Key needs to be string");
+        return;
+    }
+
+    if (!info[1].IsString()) {
+        ThrowTypeError(env, "Value needs to be string");
+        return;
+    }
+
+    std::string key = info[0].As<Napi::String>().Utf8Value();
+    std::string value = info[0].As<Napi::String>().Utf8Value();
+
+    if (hm_update((char *)key.c_str(), (char *)value.c_str(),
+                  (hashmap *)this->_map) < 0) {
+        ThrowNewError(env, "Failed to update key");
+        return;
+    }
+}
+
+void Pokodb::Close(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() > 0) {
+        ThrowTypeError(env, "Should not have any arguments");
+        return;
+    }
+
+    free_map((hashmap *)this->_map);
+    this->_map = NULL;
+}
 
 Napi::Function Pokodb::GetClass(Napi::Env env) {
     return DefineClass(env, "Pokodb",
