@@ -63,7 +63,8 @@ This will launch the PokoDB CLI, allowing you to execute database commands direc
 ## NPM Package
 
 Pokodb is released as a native addon on the [npm registry](https://www.npmjs.com/package/@kotayama/pokodb), making it easy to integrate the high-performance C database into your Node.js applications.
-Installation
+
+### Installation
 
 Install the package using your preferred package manager:
 
