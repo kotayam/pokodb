@@ -1,6 +1,6 @@
 {
   "name": "@kotayama/pokodb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An in-memory database in C.",
   "main": "node_api/lib/binding.js",
   "gypfile": true,
