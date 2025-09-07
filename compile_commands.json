@@ -71,12 +71,12 @@
       "-std=gnu++20",
       "-c",
       "-o",
-      "Release/obj.target/pokodb-native/node_api/napi_src/pokodb.o",
-      "../node_api/napi_src/pokodb.cc"
+      "Release/obj.target/pokodb-native/node_api/src/pokodb.o",
+      "../node_api/src/pokodb.cc"
     ],
     "directory": "/home/kotayama/Documents/personal/project/pokodb/build",
-    "file": "/home/kotayama/Documents/personal/project/pokodb/node_api/napi_src/pokodb.cc",
-    "output": "/home/kotayama/Documents/personal/project/pokodb/build/Release/obj.target/pokodb-native/node_api/napi_src/pokodb.o"
+    "file": "/home/kotayama/Documents/personal/project/pokodb/node_api/src/pokodb.cc",
+    "output": "/home/kotayama/Documents/personal/project/pokodb/build/Release/obj.target/pokodb-native/node_api/src/pokodb.o"
   },
   {
     "arguments": [

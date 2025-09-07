@@ -6,7 +6,7 @@
   "gypfile": true,
   "files": [
     "node_api/lib",
-    "node_api/napi_src",
+    "node_api/src",
     "include/hashmap.h",
     "src/hashmap.c",
     "binding.gyp"
