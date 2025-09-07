@@ -41,10 +41,11 @@ void Pokodb::Insert(const Napi::CallbackInfo &info) {
         return;
     }
 
-    Napi::String key = info[0].As<Napi::String>();
-    Napi::String value = info[1].As<Napi::String>();
+    std::string key = info[0].As<Napi::String>().Utf8Value();
+    std::string value = info[1].As<Napi::String>().Utf8Value();
 
-    if (hm_insert(key, value, this->_map) < 0) {
+    if (hm_insert((char *)key.c_str(), (char *)value.c_str(),
+                  (hashmap *)this->_map) < 0) {
         ThrowNewError(env, "Failed to insert");
         return;
     }
@@ -63,11 +64,11 @@ Napi::Value Pokodb::Get(const Napi::CallbackInfo &info) {
         return env.Null();
     }
 
-    Napi::String key = info[0].As<Napi::String>();
+    std::string key = info[0].As<Napi::String>().Utf8Value();
 
-    std::string res = NULL;
+    char *res = NULL;
 
-    if (hm_get(key, &res, this->_map) < 0) {
+    if (hm_get((char *)key.c_str(), &res, (hashmap *)this->_map) < 0) {
         ThrowNewError(env, "Key does not exist");
         return env.Null();
     }
@@ -75,11 +76,19 @@ Napi::Value Pokodb::Get(const Napi::CallbackInfo &info) {
     return Napi::String::New(env, res);
 }
 
+void Pokodb::Delete(const Napi::CallbackInfo &info) {}
+
+void Pokodb::Update(const Napi::CallbackInfo &info) {}
+
+void Pokodb::Close(const Napi::CallbackInfo &info) {}
+
 Napi::Function Pokodb::GetClass(Napi::Env env) {
     return DefineClass(env, "Pokodb",
-                       {
-                           Pokodb::InstanceMethod("insert", &Pokodb::Insert),
-                       });
+                       {Pokodb::InstanceMethod("insert", &Pokodb::Insert),
+                        Pokodb::InstanceMethod("get", &Pokodb::Get),
+                        Pokodb::InstanceMethod("delete", &Pokodb::Delete),
+                        Pokodb::InstanceMethod("update", &Pokodb::Update),
+                        Pokodb::InstanceMethod("close", &Pokodb::Close)});
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
