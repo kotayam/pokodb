@@ -1,11 +1,27 @@
-const addon = require('../build/Release/pokodb-native');
+const addon = require("../build/Release/pokodb-native");
 
-function Pokodb(name) {
-    this.greet = function(str) {
-        return _addonInstance.greet(str);
-    }
+function Pokodb() {
+  this.insert = function (key, value) {
+    return _addonInstance.insert(key, value);
+  };
 
-    var _addonInstance = new addon.Pokodb(name);
+  this.get = function (key) {
+    return _addonInstance.get(key);
+  };
+
+  this.delete = function (key) {
+    return _addonInstance.delete(key);
+  };
+
+  this.update = function (key, value) {
+    return _addonInstance.update(key, value);
+  };
+
+  this.close = function () {
+    return _addonInstance.close();
+  };
+
+  var _addonInstance = new addon.Pokodb();
 }
 
 module.exports = Pokodb;
