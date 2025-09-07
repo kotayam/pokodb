@@ -1,0 +1,30 @@
+{
+  "name": "@kotayama/pokodb",
+  "version": "1.0.1",
+  "description": "An in-memory database in C.",
+  "main": "node_api/lib/binding.js",
+  "gypfile": true,
+  "files": [
+    "node_api/lib",
+    "node_api/src",
+    "include/hashmap.h",
+    "include/errors.h",
+    "src/hashmap.c",
+    "binding.gyp"
+  ],
+  "scripts": {
+    "test": "node --napi-modules ./node_api/test/test_binding.js",
+    "build": "node-gyp rebuild",
+    "install": "npm run build"
+  },
+  "author": "Kota Yamamoto",
+  "license": "ISC",
+  "dependencies": {
+    "node-addon-api": "^1.1.0",
+    "node-gyp-build": "^4.8.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kotayam/pokodb.git"
+  }
+}

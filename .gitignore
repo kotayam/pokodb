@@ -1,3 +1,5 @@
 build/
 log/
-node-addon/node_modules/
+node_modules/
+.cache
+*.tgz
