@@ -1,7 +1,6 @@
 build/
 log/
+node_modules/
 
-node_api/build/
-node_api/node_modules/
 
 .cache

@@ -32,9 +32,9 @@
       "Release/obj.target/nothing/node_modules/node-addon-api/src/nothing.o",
       "../node_modules/node-addon-api/src/nothing.c"
     ],
-    "directory": "/home/kotayama/Documents/personal/project/pokodb/node_api/build",
-    "file": "/home/kotayama/Documents/personal/project/pokodb/node_api/node_modules/node-addon-api/src/nothing.c",
-    "output": "/home/kotayama/Documents/personal/project/pokodb/node_api/build/Release/obj.target/nothing/node_modules/node-addon-api/src/nothing.o"
+    "directory": "/home/kotayama/Documents/personal/project/pokodb/build",
+    "file": "/home/kotayama/Documents/personal/project/pokodb/node_modules/node-addon-api/src/nothing.c",
+    "output": "/home/kotayama/Documents/personal/project/pokodb/build/Release/obj.target/nothing/node_modules/node-addon-api/src/nothing.o"
   },
   {
     "arguments": [
@@ -57,7 +57,7 @@
       "-I/home/kotayama/.cache/node-gyp/24.3.0/deps/uv/include",
       "-I/home/kotayama/.cache/node-gyp/24.3.0/deps/zlib",
       "-I/home/kotayama/.cache/node-gyp/24.3.0/deps/v8/include",
-      "-I/home/kotayama/Documents/personal/project/pokodb/node_api/node_modules/node-addon-api",
+      "-I/home/kotayama/Documents/personal/project/pokodb/node_modules/node-addon-api",
       "-fPIC",
       "-pthread",
       "-Wall",
@@ -71,12 +71,12 @@
       "-std=gnu++20",
       "-c",
       "-o",
-      "Release/obj.target/pokodb-native/src/pokodb.o",
-      "../src/pokodb.cc"
+      "Release/obj.target/pokodb-native/node_api/napi_src/pokodb.o",
+      "../node_api/napi_src/pokodb.cc"
     ],
-    "directory": "/home/kotayama/Documents/personal/project/pokodb/node_api/build",
-    "file": "/home/kotayama/Documents/personal/project/pokodb/node_api/src/pokodb.cc",
-    "output": "/home/kotayama/Documents/personal/project/pokodb/node_api/build/Release/obj.target/pokodb-native/src/pokodb.o"
+    "directory": "/home/kotayama/Documents/personal/project/pokodb/build",
+    "file": "/home/kotayama/Documents/personal/project/pokodb/node_api/napi_src/pokodb.cc",
+    "output": "/home/kotayama/Documents/personal/project/pokodb/build/Release/obj.target/pokodb-native/node_api/napi_src/pokodb.o"
   },
   {
     "arguments": [
@@ -99,7 +99,7 @@
       "-I/home/kotayama/.cache/node-gyp/24.3.0/deps/uv/include",
       "-I/home/kotayama/.cache/node-gyp/24.3.0/deps/zlib",
       "-I/home/kotayama/.cache/node-gyp/24.3.0/deps/v8/include",
-      "-I/home/kotayama/Documents/personal/project/pokodb/node_api/node_modules/node-addon-api",
+      "-I/home/kotayama/Documents/personal/project/pokodb/node_modules/node-addon-api",
       "-fPIC",
       "-pthread",
       "-Wall",
@@ -110,11 +110,11 @@
       "-fno-omit-frame-pointer",
       "-c",
       "-o",
-      "Release/obj.target/pokodb-native/../src/hashmap.o",
-      "../../src/hashmap.c"
+      "Release/obj.target/pokodb-native/src/hashmap.o",
+      "../src/hashmap.c"
     ],
-    "directory": "/home/kotayama/Documents/personal/project/pokodb/node_api/build",
+    "directory": "/home/kotayama/Documents/personal/project/pokodb/build",
     "file": "/home/kotayama/Documents/personal/project/pokodb/src/hashmap.c",
-    "output": "/home/kotayama/Documents/personal/project/pokodb/node_api/build/Release/obj.target/src/hashmap.o"
+    "output": "/home/kotayama/Documents/personal/project/pokodb/build/Release/obj.target/pokodb-native/src/hashmap.o"
   }
 ]
