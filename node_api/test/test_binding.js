@@ -20,6 +20,9 @@ function testBasic() {
     assert.throws(() => db.get("world"), Error, "Key should not exist");
     assert.throws(() => db.insert("test"), Error, "Key already exists");
 
+    db.insert("jack", "daniel");
+    assert.strictEqual(db.get("jack"), "daniel", "wrong value");
+
     db.update("test", "world");
     assert.strictEqual(db.get("test"), "world", "wrong value");
 
