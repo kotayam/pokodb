@@ -2,10 +2,6 @@
 
 #include <napi.h>
 
-extern "C" {
-#include "../../include/hashmap.h"
-}
-
 class Pokodb : public Napi::ObjectWrap<Pokodb> {
   private:
     void *_map;

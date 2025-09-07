@@ -1,5 +1,9 @@
 #include "pokodb.h"
 
+extern "C" {
+#include "../../include/hashmap.h"
+}
+
 using namespace Napi;
 
 Pokodb::Pokodb(const Napi::CallbackInfo &info) : ObjectWrap(info) {
