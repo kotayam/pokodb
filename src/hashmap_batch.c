@@ -1,5 +1,4 @@
 #include "../include/hashmap_batch.h"
-#include <stdio.h>
 
 typedef struct operation_t {
     char *operation;
@@ -45,6 +44,7 @@ short run_batch(int num_operations, int num_threads, hashmap *map) {
     }
 
     // if num_operations <= 0, run without multithreading.
+    clock_t start = clock();
     if (num_threads <= 0) {
         for (int i = 0; i < num_operations; i++) {
             operation *ops = operations[i];
@@ -60,6 +60,10 @@ short run_batch(int num_operations, int num_threads, hashmap *map) {
             free(ops->value);
         }
         free(operations);
+
+        clock_t end = clock();
+        int elapsed_ms = (int)((end - start) * 1000 / CLOCKS_PER_SEC);
+        printf("Single-thread elapsed time: %d ms\n", elapsed_ms);
         return 0;
     }
     printf("Running batch with %d operations using %d threads...\n",
@@ -77,6 +81,9 @@ short run_batch(int num_operations, int num_threads, hashmap *map) {
     }
 
     free_job(job);
+    clock_t end = clock();
+    int elapsed_ms = (int)((end - start) * 1000 / CLOCKS_PER_SEC);
+    printf("Multi-thread elapsed time: %d ms\n", elapsed_ms);
     return 0;
 }
 
